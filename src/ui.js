@@ -1,5 +1,8 @@
 // Helpers DOM et utilitaires partagés par les étapes. Aucune donnée ne passe par innerHTML.
 
+/** Attributs des noms propres (député, parti, groupe, e-mail) : ni Weglot ni le navigateur ne les traduisent. */
+export const NO_TRANSLATE = Object.freeze({ translate: 'no', 'data-wg-notranslate': '' });
+
 export function h(tag, attrs = {}, ...children) {
   const el = document.createElement(tag);
   for (const [k, v] of Object.entries(attrs)) {

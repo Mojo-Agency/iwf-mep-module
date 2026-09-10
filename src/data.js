@@ -49,17 +49,21 @@ export function search(index, { country = null, query = '' } = {}) {
   return out;
 }
 
+/** Nom du pays dans la langue de la page (Weglot), repli anglais puis code. */
 export function countryLabel(code, lang = 'en') {
-  try {
-    return new Intl.DisplayNames([lang], { type: 'region' }).of(code) || code;
-  } catch {
-    return code;
+  for (const locale of lang === 'en' ? ['en'] : [lang, 'en']) {
+    try {
+      const label = new Intl.DisplayNames([locale], { type: 'region' }).of(code);
+      if (label) return label;
+    } catch { /* locale ou code inconnu */ }
   }
+  return code;
 }
 
 export function countriesOf(meps, lang = 'en') {
   const codes = [...new Set(meps.map((m) => m.country))];
+  const compare = (a, b) => { try { return a.localeCompare(b, lang); } catch { return a.localeCompare(b); } };
   return codes
     .map((code) => ({ code, label: countryLabel(code, lang) }))
-    .sort((a, b) => a.label.localeCompare(b.label, lang));
+    .sort((a, b) => compare(a.label, b.label));
 }

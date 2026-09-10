@@ -98,28 +98,35 @@ export const TEMPLATES = [
   },
 ];
 
-export const COPY = {
+// Textes de l'interface, en anglais (langue source du projet Weglot). Chaque valeur est une chaîne :
+// les variables sont des jetons {nom} remplis au rendu (src/i18n.js), ce qui donne une seule entrée
+// Weglot par texte quel que soit le nombre affiché. Tout est traduit par Weglot.translate, sauf les
+// noms des députés, des partis et des groupes (données, jamais envoyées en traduction).
+export const STRINGS = {
   step1Title: 'Find your representative',
   countryLabel: 'Search by country',
   allCountries: 'All countries',
   searchLabel: 'Search by name, party or political group',
-  shown: (n, total) => `${n} out of ${total} representatives shown`,
-  resultsAnnounce: (n, from, to) => `${n} representative${n === 1 ? '' : 's'} match. Showing ${from} to ${to}.`,
+  shown: '{n} out of {total} representatives shown',
+  resultsOne: '1 representative matches. Showing {from} to {to}.',
+  resultsMany: '{n} representatives match. Showing {from} to {to}.',
   pagination: 'Pagination',
   prevPage: 'Previous page',
   nextPage: 'Next page',
-  pageLabel: (p) => `Page ${p}`,
-  pageInfo: (p, n) => `Page ${p} of ${n}`,
+  pageLabel: 'Page {p}',
+  pageInfo: 'Page {p} of {n}',
   noResult: 'No representatives match that.',
   noResultHint: 'Try another country, or clear the filters.',
   clearFilters: 'Clear filters',
-  contactAll: (country) => `Contact all ${country} representatives`,
-  voteKicker: (date) => `Last vote on detection · ${date}`,
+  contactAll: 'Contact all {country} representatives',
+  voteKicker: 'Last vote on detection · {date}',
   source: 'Source',
+  sourceOf: 'Source: vote of {name}',
   writeTo: 'Write to this MEP',
+  writeToName: 'Write to this MEP: {name}',
 
   writingTo: 'Writing to',
-  allMepsIn: (n, country) => `All ${n} MEPs in ${country}`,
+  allMepsIn: 'All {n} MEPs in {country}',
   change: 'Change',
   step2Title: 'Choose a starting point',
   subject: 'Subject',
@@ -127,26 +134,37 @@ export const COPY = {
   continueBtn: 'Continue',
   editNote: "Feel free to edit this. A message in your own words is always more effective. Please don't include personal details about yourself or anyone else.",
   longMessage: 'Long messages may not open in some email apps, use the copy button below.',
+  characters: '{n} characters.',
   emptyFields: 'Please write a subject and a message before continuing.',
+  templateSelected: '{title} selected. Subject and message updated.',
 
   step3Title: 'Review and send',
   to: 'To',
+  bulkTo: 'All {n} MEPs in {country} (BCC)',
   edit: 'Edit',
+  editSubject: 'Edit subject',
+  editMessage: 'Edit message',
   sendNotice: "This will open your own email app with the message ready to send. Your message goes directly from you to your representative. We never see it, and we don't keep a copy. Once sent, it can't be recalled.",
   beforeYouSend: 'Before you send',
   // Fin de phrase tronquée dans l'export PDF : "This keeps the recipient list …" — à confirmer avec Mojo.
   bccNotice: 'Paste the addresses into the BCC field of your email, not To or CC. This keeps the recipient list private.',
   copyMessage: 'Copy message',
   copyEmail: 'Copy email address',
-  copyAllEmails: (n) => `Copy all ${n} email addresses`,
+  copyAllEmails: 'Copy all {n} email addresses',
   openEmail: 'Open in my email app',
   copied: 'Copied ✓',
   copyFailed: 'Copy failed, select the text and copy it manually.',
+  messageCopied: 'Message copied',
+  emailCopied: 'Email address copied',
+  addressesCopied: '{n} addresses copied',
+  manualCopy: 'Text to copy manually',
   afterSend: 'Email sent? Share the campaign and encourage others to take action.',
   shareX: 'Share on X',
   shareLinkedIn: 'Share on LinkedIn',
   shareFacebook: 'Share on Facebook',
   bulkUseCopy: 'Too many addresses for a single email link: copy the addresses and the message below.',
+  loadError: 'We could not load the list of MEPs. Please refresh the page or try again later.',
+  tryAgain: 'Try again',
 };
 
 // Partage : URL publique de la campagne uniquement, jamais de donnée du parcours.

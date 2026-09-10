@@ -1,10 +1,10 @@
 // Étape 1 : trouver son député (pays, recherche, grille paginée 9 par page, bulk, état vide).
-import { h, debounce, formatVoteDate, initials, prefersReducedMotion } from '../ui.js';
+import { h, debounce, formatVoteDate, initials, prefersReducedMotion, NO_TRANSLATE } from '../ui.js';
 import { search, countriesOf, countryLabel } from '../data.js';
-import { COPY, PAGE_SIZE } from '../templates.js';
+import { PAGE_SIZE } from '../templates.js';
 
 function renderCard(mep, ctx) {
-  const { data, state, goTo } = ctx;
+  const { data, state, goTo, t, tr, lang } = ctx;
   // Design STEP 01 : photo pleine largeur en tête de carte, puis nom, "Pays • Parti", groupe en gris,
   // encart de vote blanc à bordure fine, bouton rouge plein.
   const photo = h('img', {
@@ -18,29 +18,32 @@ function renderCard(mep, ctx) {
       e.target.replaceWith(h('span', { class: 'mep-card__photo mep-card__photo--fallback', 'aria-hidden': 'true', text: initials(mep.name) }));
     },
   });
-  const countryParty = [countryLabel(mep.country), mep.party].filter(Boolean).join(' • ');
+  // Pays traduit par Intl.DisplayNames dans la langue Weglot ; nom, parti et groupe jamais traduits.
   const groupFull = data.groups && data.groups[mep.group] ? `${mep.group} (${data.groups[mep.group]})` : mep.group;
 
   return h('li', { class: 'mep-card' },
     photo,
     h('div', { class: 'mep-card__body' },
       h('div', { class: 'mep-card__identity' },
-        h('h3', { class: 'mep-card__name', text: mep.name }),
-        h('p', { class: 'mep-card__meta', text: countryParty }),
-        h('p', { class: 'mep-card__meta mep-card__meta--group', text: groupFull }),
+        h('h3', { class: 'mep-card__name', ...NO_TRANSLATE, text: mep.name }),
+        h('p', { class: 'mep-card__meta' },
+          countryLabel(mep.country, lang),
+          mep.party ? [' • ', h('span', { ...NO_TRANSLATE, text: mep.party })] : null,
+        ),
+        h('p', { class: 'mep-card__meta mep-card__meta--group', ...NO_TRANSLATE, text: groupFull }),
       ),
       h('div', { class: `mep-card__vote mep-card__vote--${mep.vote}` },
         h('div', { class: 'mep-card__vote-row' },
-          h('span', { class: 'mep-card__vote-kicker', text: COPY.voteKicker(formatVoteDate(data.voteDate)) }),
-          h('a', { class: 'mep-card__vote-source', href: mep.voteUrl, target: '_blank', rel: 'noopener', text: COPY.source, 'aria-label': `${COPY.source}: vote of ${mep.name}` }),
+          h('span', { class: 'mep-card__vote-kicker', text: t('voteKicker', { date: formatVoteDate(data.voteDate) }) }),
+          h('a', { class: 'mep-card__vote-source', href: mep.voteUrl, target: '_blank', rel: 'noopener', text: t('source'), 'aria-label': t('sourceOf', { name: mep.name }) }),
         ),
-        h('span', { class: 'mep-card__vote-label', text: mep.label }),
+        h('span', { class: 'mep-card__vote-label', text: tr(mep.label) }),
       ),
       h('button', {
         type: 'button',
         class: 'mep-btn mep-btn--block',
-        'aria-label': `${COPY.writeTo}: ${mep.name}`,
-        text: COPY.writeTo,
+        'aria-label': t('writeToName', { name: mep.name }),
+        text: t('writeTo'),
         onclick: () => {
           state.selectedMep = mep;
           state.template = null;
@@ -51,8 +54,8 @@ function renderCard(mep, ctx) {
   );
 }
 
-function renderPagination(page, pageCount, onPage) {
-  const nav = h('nav', { class: 'mep-pagination', 'aria-label': COPY.pagination });
+function renderPagination(page, pageCount, onPage, t) {
+  const nav = h('nav', { class: 'mep-pagination', 'aria-label': t('pagination') });
   if (pageCount <= 1) { nav.hidden = true; return nav; }
   const wanted = new Set([1, pageCount, page - 1, page, page + 1].filter((p) => p >= 1 && p <= pageCount));
   const pages = [...wanted].sort((a, b) => a - b);
@@ -64,27 +67,27 @@ function renderPagination(page, pageCount, onPage) {
       type: 'button',
       class: 'mep-pagination__page',
       'aria-current': p === page ? 'page' : null,
-      'aria-label': COPY.pageLabel(p),
+      'aria-label': t('pageLabel', { p }),
       text: String(p),
       onclick: () => onPage(p),
     }));
     prev = p;
   }
   nav.append(
-    h('button', { type: 'button', class: 'mep-pagination__nav', disabled: page === 1, 'aria-label': COPY.prevPage, text: '←', onclick: () => onPage(page - 1) }),
+    h('button', { type: 'button', class: 'mep-pagination__nav', disabled: page === 1, 'aria-label': t('prevPage'), text: '←', onclick: () => onPage(page - 1) }),
     h('div', { class: 'mep-pagination__pages' }, items),
-    h('button', { type: 'button', class: 'mep-pagination__nav', disabled: page === pageCount, 'aria-label': COPY.nextPage, text: '→', onclick: () => onPage(page + 1) }),
-    h('p', { class: 'mep-pagination__info', text: COPY.pageInfo(page, pageCount) }),
+    h('button', { type: 'button', class: 'mep-pagination__nav', disabled: page === pageCount, 'aria-label': t('nextPage'), text: '→', onclick: () => onPage(page + 1) }),
+    h('p', { class: 'mep-pagination__info', text: t('pageInfo', { p: page, n: pageCount }) }),
   );
   return nav;
 }
 
 export function renderStep1(ctx) {
-  const { data, index, state, goTo, announce } = ctx;
-  const countries = countriesOf(data.meps);
+  const { data, index, state, goTo, announce, t, lang } = ctx;
+  const countries = countriesOf(data.meps, lang);
 
   const select = h('select', { class: 'mep-select', id: 'mep-country', name: 'country' },
-    h('option', { value: '', text: COPY.allCountries }),
+    h('option', { value: '', text: t('allCountries') }),
     countries.map((c) => h('option', { value: c.code, text: c.label, selected: state.country === c.code })),
   );
   // Design : libellé visible au-dessus du champ, pas de placeholder ni d'icône.
@@ -112,14 +115,14 @@ export function renderStep1(ctx) {
 
     grid.replaceChildren();
     bulkWrap.replaceChildren();
-    pagerWrap.replaceChildren(renderPagination(state.page, pageCount, goPage));
+    pagerWrap.replaceChildren(renderPagination(state.page, pageCount, goPage, t));
 
     if (state.country) {
       const all = data.meps.filter((m) => m.country === state.country);
       bulkWrap.append(h('button', {
         type: 'button',
         class: 'mep-btn mep-btn--block',
-        text: COPY.contactAll(countryLabel(state.country)),
+        text: t('contactAll', { country: countryLabel(state.country, lang) }),
         onclick: () => {
           state.selectedMep = { bulk: true, country: state.country, meps: all };
           state.template = null;
@@ -130,10 +133,10 @@ export function renderStep1(ctx) {
 
     if (!results.length) {
       grid.append(h('li', { class: 'mep-empty' },
-        h('p', { class: 'mep-empty__title', text: COPY.noResult }),
-        h('p', { text: COPY.noResultHint }),
+        h('p', { class: 'mep-empty__title', text: t('noResult') }),
+        h('p', { text: t('noResultHint') }),
         h('button', {
-          type: 'button', class: 'mep-btn mep-btn--outline', text: COPY.clearFilters,
+          type: 'button', class: 'mep-btn mep-btn--outline', text: t('clearFilters'),
           onclick: () => {
             state.country = null; state.query = ''; state.page = 1;
             select.value = ''; input.value = '';
@@ -149,8 +152,12 @@ export function renderStep1(ctx) {
     }
 
     // Compteur = nombre de députés correspondant au filtre (pas seulement la page affichée).
-    countEl.textContent = COPY.shown(results.length, data.meps.length);
-    announce(results.length ? COPY.resultsAnnounce(results.length, start + 1, start + pageItems.length) : COPY.noResult);
+    countEl.textContent = t('shown', { n: results.length, total: data.meps.length });
+    const from = start + 1;
+    const to = start + pageItems.length;
+    announce(!results.length
+      ? t('noResult')
+      : results.length === 1 ? t('resultsOne', { from, to }) : t('resultsMany', { n: results.length, from, to }));
 
     if (focusResults) {
       try { resultsBar.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' }); } catch { /* noop */ }
@@ -162,10 +169,10 @@ export function renderStep1(ctx) {
   input.addEventListener('input', debounce(() => { state.query = input.value; state.page = 1; update(); }, 150));
 
   const section = h('section', { class: 'mep-step mep-step--1', 'aria-labelledby': 'mep-step1-title' },
-    h('h2', { class: 'mep-step__title', id: 'mep-step1-title', tabindex: '-1', text: COPY.step1Title }),
+    h('h2', { class: 'mep-step__title', id: 'mep-step1-title', tabindex: '-1', text: t('step1Title') }),
     h('div', { class: 'mep-toolbar' },
-      h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-country', text: COPY.countryLabel }), select),
-      h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-search', text: COPY.searchLabel }), input),
+      h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-country', text: t('countryLabel') }), select),
+      h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-search', text: t('searchLabel') }), input),
     ),
     bulkWrap,
     resultsBar,

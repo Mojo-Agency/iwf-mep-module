@@ -23,7 +23,8 @@ npm run build:data          # data/meps.csv -> data/meps.json + reports/csv-qual
 npm run build:data:strict   # idem, les avertissements deviennent bloquants
 npm run dev                 # harness local http://localhost:5173 (index.html mocke la page Webflow)
 npm run build               # prebuild = build:data, puis dist/mep-module.min.js (IIFE, CSS inliné)
-npm run smoke               # parcours complet dans jsdom sur dist/ (53 vérifications, sans navigateur)
+npm run smoke               # parcours complet dans jsdom sur dist/ (sans navigateur), puis scénario Weglot
+npm run smoke:weglot        # le module sous Weglot seul (faux window.Weglot : lots, cache, bascule, replis)
 npm test                    # build + smoke
 ```
 
@@ -37,9 +38,38 @@ Node 20 ou 21 : jsdom est épinglé en 25.x (les versions 27+ exigent Node 22).
 - `steps/step2-write.js` : barre « Writing to », 3 modèles, objet et corps éditables, compteur > 1500 caractères.
 - `steps/step3-send.js` : aperçu, `mailto:` (CRLF), copier message / adresse(s), mode bulk en BCC
   (le bouton « Open in my email app » est masqué si le mailto dépasse 2000 caractères).
-- `templates.js` : toute la copy du parcours et les 3 modèles définitifs (objet + message chacun),
-  fournis par Mojo/IWF le 2026-09-10. Copie de référence : `sources/design-copy/mail-templates.md`.
+- `templates.js` : toute la copy du parcours (`STRINGS`, chaînes anglaises à jetons `{n}`) et les 3 modèles
+  définitifs (objet + message chacun), fournis par Mojo/IWF le 2026-09-10. Copie de référence :
+  `sources/design-copy/mail-templates.md`.
+- `i18n.js` : traduction du module par l'API JavaScript de Weglot (voir ci-dessous).
 - `analytics.js` : `dataLayer.push({ event: "mep_contact_click", country })`, no-op sans dataLayer.
+
+## Traduction (Weglot)
+
+Le module vit à une seule URL et construit ses trois étapes en JavaScript : Weglot ne peut pas les
+découvrir en lisant la page. Le module se traduit donc **lui-même**, via `Weglot.translate`, et exclut
+son DOM de la traduction automatique (`data-wg-notranslate` sur `#mep-module`). Aucun réglage
+« Dynamic elements » n'est nécessaire dans le dashboard Weglot.
+
+- Au montage, le module lit la langue courante (`Weglot.getCurrentLang()`), envoie en une fois tous ses
+  textes fixes (interface, titres et descriptions des modèles, objets, **corps des mails ligne par ligne**,
+  libellés de vote du JSON, texte de partage) par lots de 40, puis rend directement les textes traduits :
+  pas de clignotement, et le mail ouvert ou copié est bien le mail traduit.
+- Les textes apparaissent dans le dashboard Weglot (Translations, URL `/contact-your-mep`) dès la
+  première visite dans une langue ; ils s'y corrigent comme le reste du site, la correction est servie au
+  chargement suivant. Le Visual Editor ne sait pas cibler le module : passer par la liste.
+- Une seule entrée par texte quel que soit le nombre affiché : les variables sont des jetons `{n}`,
+  `{country}`, `{date}`… Si une traduction perd un jeton, l'anglais est conservé pour ce texte
+  (à corriger dans Weglot en gardant le jeton tel quel).
+- **Jamais traduits** : noms des députés, partis et groupes politiques, adresses e-mail (attributs
+  `translate="no"` + `data-wg-notranslate`, et jamais envoyés à Weglot). Les noms de pays viennent de
+  `Intl.DisplayNames` dans la langue de la page (liste triée dans cette langue).
+- Bascule de langue dans la page (`languageChanged`) : l'étape courante est re-rendue, l'objet et le
+  message suivent la nouvelle langue tant que le citoyen ne les a pas modifiés ; ses modifications sont
+  conservées. Les traductions sont mises en cache en mémoire par langue (aucun stockage).
+- Sans Weglot, ou en anglais (langue source) : aucune requête. Si Weglot ne répond pas (8 s), répond mal
+  ou n'est pas encore initialisé (attente de `initialized`, 3 s max) : anglais, module fonctionnel,
+  avertissement en console.
 
 ## Données
 
