@@ -162,7 +162,7 @@
 #mep-module .mep-pagination__nav {
   display: inline-grid; place-items: center;
   min-width: var(--mep-touch); min-height: var(--mep-touch);
-  padding: 0 0.5rem;
+  padding: 0.16em 0.5rem 0;
   background: var(--mep-white);
   border: 1px solid var(--mep-border-strong);
   border-radius: 0;
@@ -180,7 +180,8 @@
 #mep-module .mep-btn {
   display: inline-flex; align-items: center; justify-content: center;
   min-height: var(--mep-touch);
-  padding: 0 1.25rem;
+  /* Lexia (USE_TYPO_METRICS) place les capitales ~0.1em trop haut : padding asymétrique pour recentrer. */
+  padding: 0.16em 1.25rem 0;
   font-family: var(--mep-font-heading);
   font-size: var(--mep-fs-body);
   line-height: 1;
