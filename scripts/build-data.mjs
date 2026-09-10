@@ -58,18 +58,16 @@ const COUNTRIES = {
 //   for       = a voté POUR le rejet   = contre la protection des enfants
 //   against   = a voté CONTRE le rejet = pour la protection des enfants
 const VOTES = { FOR: 'for', AGAINST: 'against', ABSTENTION: 'abstained', DID_NOT_VOTE: 'absent' };
-const VOTE_LABELS = {
+// Libellés de repli si une position est absente du CSV. Les libellés affichés viennent du CSV
+// (libellé majoritaire par position) : c'est Mojo qui fait foi, le script signale les incohérences.
+const DEFAULT_VOTE_LABELS = {
   for: 'Said no to action against child sexual abuse',
-  against: 'Voted to fight sexual abuse online',
+  against: 'Voted to stop child sexual abuse content online',
   abstained: 'Abstained',
   absent: 'Did not vote',
 };
-const VOTE_LABELS_TECHNICAL = {
-  for: 'Voted for rejection',
-  against: 'Voted against rejection',
-  abstained: 'Abstained',
-  absent: 'Did not vote',
-};
+const DESIGN_VOTE_LABEL_AGAINST = 'Voted to fight child sexual abuse online'; // maquette Figma STEP 01
+const labelRows = []; // { line, vote, label, technical } pour le contrôle de cohérence
 
 // eu_group_code -> [libellé court, libellé long]
 const GROUPS = {
@@ -217,8 +215,8 @@ for (const { line, cells } of dataRows) {
   const vote = VOTES[rawVote];
   if (!vote) err(line, 'vote_position_raw', `Position de vote inconnue "${g('vote_position_raw')}"`);
   else {
-    if (g('vote_label_en') !== VOTE_LABELS[vote]) warn(line, 'vote_label_en', `Libellé "${g('vote_label_en')}" différent de "${VOTE_LABELS[vote]}"`);
-    if (g('vote_label_technical_en') !== VOTE_LABELS_TECHNICAL[vote]) warn(line, 'vote_label_technical_en', `Libellé technique "${g('vote_label_technical_en')}" différent de "${VOTE_LABELS_TECHNICAL[vote]}"`);
+    if (!g('vote_label_en')) err(line, 'vote_label_en', 'Libellé de vote vide');
+    labelRows.push({ line, vote, label: g('vote_label_en'), technical: g('vote_label_technical_en') });
   }
 
   const date = g('vote_date');
@@ -275,6 +273,24 @@ for (const { line, cells } of dataRows) {
     if (profile !== PROFILE_BASE.replace('{id}', id)) mep.profile = profile;
     meps.push({ mep, source });
   }
+}
+
+// Libellé majoritaire par position ; toute ligne qui s'en écarte est signalée.
+const VOTE_LABELS = { ...DEFAULT_VOTE_LABELS };
+const labelCounts = {};
+for (const { vote, label } of labelRows) {
+  labelCounts[vote] ??= new Map();
+  labelCounts[vote].set(label, (labelCounts[vote].get(label) || 0) + 1);
+}
+for (const [vote, counts] of Object.entries(labelCounts)) {
+  const [majority] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0];
+  if (majority) VOTE_LABELS[vote] = majority;
+  for (const row of labelRows) {
+    if (row.vote === vote && row.label !== majority) warn(row.line, 'vote_label_en', `Libellé "${row.label}" différent du libellé majoritaire "${majority}" pour ${vote}`);
+  }
+}
+for (const row of labelRows) {
+  if (row.technical && !/rejection|Abstained|Did not vote/i.test(row.technical)) warn(row.line, 'vote_label_technical_en', `Libellé technique inattendu "${row.technical}"`);
 }
 
 if (voteDates.size > 1) warn(0, 'vote_date', `Plusieurs dates de vote : ${[...voteDates].join(', ')}`);
@@ -380,6 +396,8 @@ report.push('## Statistiques');
 report.push('');
 report.push('### Par position de vote');
 report.push('');
+report.push('Le libellé affiché est le libellé majoritaire du CSV pour chaque position (`vote_label_en`).');
+report.push('');
 report.push(mdTable(
   Object.entries(VOTES).map(([rawKey, v]) => [rawKey, v, VOTE_LABELS[v], `${stats.byVote[v] || 0}`]),
   ['Valeur CSV', 'Enum JSON', 'Libellé affiché', 'Députés'],
@@ -404,7 +422,7 @@ report.push('');
 report.push("1. **Parti national** : la colonne `national_party` est vide sur toutes les lignes alors que les fiches et la recherche du design l'affichent. Merci de fournir un V03 avec cette colonne remplie (source possible : HowTheyVote ou europarl.europa.eu).");
 report.push(`2. **Nombre de députés** : ${dataRows.length} lignes pour ${EXPECTED_ROWS} sièges. Confirmer qu'il s'agit d'un siège vacant à la date du vote, ou identifier le député manquant.`);
 report.push('3. **Sens de la position de vote** : le CSV décrit la position sur la motion de rejet (`FOR` = a voté pour le rejet = « Said no to action against child sexual abuse »). Le JSON conserve ce sens (`for` / `against`) et fournit les libellés à afficher ; confirmer que la bande de vote des fiches repose bien sur `vote_label_en`.');
-report.push('4. **Libellé de la bande de vote** : le CSV dit « Voted to fight sexual abuse online », le design dit « Voted to fight **child** sexual abuse online ». Quel texte fait foi ?');
+report.push(`4. **Libellé de la bande de vote** : le CSV dit « ${VOTE_LABELS.against} », la maquette Figma dit « ${DESIGN_VOTE_LABEL_AGAINST} ». Le module affiche le CSV ; confirmer que c'est le texte définitif.`);
 report.push(`5. **Abstention / absence** : formulation de la bande pour « Abstained » et « Did not vote » (${stats.byVote.abstained || 0} et ${stats.byVote.absent || 0} députés concernés).`);
 report.push(`6. **Date sur les fiches** : le design affiche « LAST VOTE ON DETECTION · 07.9.26 » alors que \`vote_date\` vaut ${[...voteDates][0] ?? '?'} (9 juillet 2026). Format retenu par défaut dans le module : 09.07.26 (jj.mm.aa), à confirmer.`);
 report.push('7. **Parti national dans les fiches** : le design montre « Finland  Kansallinen Kokoomus » sous le nom ; sans `national_party` la fiche n\'affichera que le pays.');

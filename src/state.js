@@ -4,6 +4,7 @@ export const initialState = Object.freeze({
   step: 1,            // 1 | 2 | 3
   country: null,      // code ISO alpha-2 ou null = tous les pays
   query: '',
+  page: 1,            // page courante de la grille (9 fiches par page)
   selectedMep: null,  // objet député, ou { bulk: true, country: 'BE' }
   template: null,     // 0 | 1 | 2
   subject: '',

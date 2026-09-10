@@ -11,6 +11,9 @@
   --mep-light: var(--_colorswatch---brand-3, whitesmoke);
   --mep-white: var(--_colorswatch---white, #fff);
   --mep-border: var(--_colortheme---grey-border, #eaeaea);
+  --mep-border-strong: #d6d6d6;
+  --mep-neutral-dark: var(--_colorswatch---brand-4, #444443);
+  --mep-fs-xs: var(--_responsivesizing---fontsize-xs, 0.75rem);
   --mep-touch: var(--accessibility--min-touch, 48px);
   --mep-radius: var(--radius--radius-xs, 1rem);
   --mep-radius-s: 0.5rem;
@@ -20,9 +23,9 @@
   --mep-fs-s: var(--_responsivesizing---fontsize-s, 0.875rem);
   --mep-fs-h5: var(--_responsivesizing---fontsize-h5, 1.375rem);
   --mep-border-line: var(--border--border-line, 2px);
-  --mep-ok: #1c7c3e;
-  --mep-ko: var(--mep-brand);
-  --mep-neutral: #6b6b6b;
+  --mep-ok: #1f8a4c;
+  --mep-ko: var(--mep-brand-dark);
+  --mep-neutral: #888888;
 
   font-family: var(--mep-font-text);
   font-size: var(--mep-fs-body);
@@ -48,58 +51,76 @@
 #mep-module .mep-step { display: grid; gap: var(--mep-gap); }
 #mep-module .mep-step__title {
   font-family: var(--mep-font-heading);
-  font-size: var(--mep-fs-h5);
-  line-height: 1.2;
+  font-size: clamp(1.625rem, 1.25rem + 1.2vw, 2rem);
+  line-height: 1.1;
   margin: 0;
 }
 #mep-module .mep-step__title:focus { outline: none; }
 
-/* ---- Barre d'outils ----------------------------------------------------- */
+/* ---- Barre d'outils (design : select pays 1/3, recherche avec loupe 2/3) --- */
 #mep-module .mep-toolbar {
   display: grid;
-  grid-template-columns: minmax(12rem, 1fr) 2fr;
+  grid-template-columns: minmax(14rem, 1fr) minmax(0, 2fr);
   gap: var(--mep-gap-s);
   align-items: end;
 }
-#mep-module .mep-field { display: grid; gap: 0.375rem; }
+#mep-module .mep-field { display: grid; gap: 0.5rem; }
 #mep-module .mep-field__label { font-size: var(--mep-fs-s); font-weight: 700; }
 #mep-module .mep-input,
 #mep-module .mep-select {
-  min-height: var(--mep-touch);
+  min-height: 3.5rem;
   width: 100%;
-  padding: 0 0.875rem;
+  padding: 0 1rem;
   font: inherit;
   color: inherit;
   background: var(--mep-white);
-  border: var(--mep-border-line) solid var(--mep-border);
+  border: 1px solid var(--mep-border-strong);
   border-radius: var(--mep-radius-s);
+  -webkit-appearance: none;
+  appearance: none;
 }
+#mep-module .mep-select {
+  padding-right: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none' stroke='%23303030' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 6l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  cursor: pointer;
+}
+#mep-module .mep-input--search {
+  padding-left: 3rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23303030' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='M20 20l-3.5-3.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: 1rem center;
+}
+#mep-module .mep-input::placeholder { color: var(--mep-neutral); opacity: 1; }
 #mep-module .mep-input:focus,
-#mep-module .mep-select:focus { border-color: var(--mep-dark); outline: none; }
-#mep-module .mep-status { font-size: var(--mep-fs-s); color: var(--mep-neutral); min-height: 1.5em; }
+#mep-module .mep-select:focus { border-color: var(--mep-dark); box-shadow: inset 0 0 0 1px var(--mep-dark); outline: none; }
+#mep-module .mep-status { font-size: var(--mep-fs-s); color: var(--mep-neutral); min-height: 1.5em; margin: 0; }
 
-/* ---- Grille de fiches --------------------------------------------------- */
+/* ---- Grille de fiches (design : carte blanche sans bordure, photo carrée arrondie) */
 #mep-module .mep-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--mep-gap-s);
+  gap: var(--mep-gap);
   list-style: none;
   margin: 0;
   padding: 0;
 }
+#mep-module .mep-grid:focus { outline: none; }
 #mep-module .mep-card {
   display: grid;
   grid-template-rows: auto 1fr auto;
+  gap: var(--mep-gap-s);
+  padding: var(--mep-gap-s);
   background: var(--mep-white);
-  border: var(--mep-border-line) solid var(--mep-border);
   border-radius: var(--mep-radius);
-  overflow: hidden;
 }
-#mep-module .mep-card__head { display: flex; gap: var(--mep-gap-s); padding: var(--mep-gap-s); align-items: center; }
+#mep-module .mep-card__head { display: flex; gap: var(--mep-gap-s); align-items: flex-start; }
+#mep-module .mep-card__identity { min-width: 0; }
 #mep-module .mep-card__photo {
   flex: none;
-  width: 4.5rem; height: 4.5rem;
-  border-radius: 50%;
+  width: 5rem; height: 5rem;
+  border-radius: 0.75rem;
   object-fit: cover;
   background: var(--mep-light);
   color: var(--mep-neutral);
@@ -108,24 +129,47 @@
 }
 #mep-module .mep-card__name {
   font-family: var(--mep-font-heading);
-  font-size: var(--mep-fs-body);
-  line-height: 1.2;
-  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  margin: 0 0 0.375rem;
+  overflow-wrap: anywhere;
 }
-#mep-module .mep-card__meta { font-size: var(--mep-fs-s); color: var(--mep-neutral); margin: 0.25rem 0 0; }
+#mep-module .mep-card__meta { font-size: var(--mep-fs-s); color: var(--mep-neutral); margin: 0; line-height: 1.4; }
 #mep-module .mep-card__vote {
-  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
-  padding: 0.5rem var(--mep-gap-s);
-  font-size: var(--mep-fs-s);
-  font-weight: 700;
+  display: grid; gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
   color: var(--mep-white);
-  background: var(--mep-neutral);
+  background: var(--mep-neutral-dark);
 }
 #mep-module .mep-card__vote--against { background: var(--mep-ok); }
 #mep-module .mep-card__vote--for { background: var(--mep-ko); }
-#mep-module .mep-card__vote a { color: inherit; font-weight: 400; text-decoration: underline; }
-#mep-module .mep-card__vote-kicker { display: block; font-size: var(--_responsivesizing---fontsize-xs, 0.75rem); font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; }
-#mep-module .mep-card__actions { padding: var(--mep-gap-s); }
+#mep-module .mep-card__vote-row { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+#mep-module .mep-card__vote-kicker { font-size: var(--mep-fs-s); font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.9; }
+#mep-module .mep-card__vote-source { font-size: var(--mep-fs-s); color: inherit; text-decoration: underline; text-underline-offset: 2px; white-space: nowrap; }
+#mep-module .mep-card__vote-label { font-size: var(--mep-fs-body); font-weight: 700; line-height: 1.3; }
+#mep-module .mep-card__actions { align-self: end; }
+
+/* ---- Pagination (9 fiches par page) ------------------------------------- */
+#mep-module .mep-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 0.5rem; }
+#mep-module .mep-pagination__pages { display: flex; align-items: center; gap: 0.25rem; }
+#mep-module .mep-pagination__page,
+#mep-module .mep-pagination__nav {
+  display: inline-grid; place-items: center;
+  min-width: var(--mep-touch); min-height: var(--mep-touch);
+  padding: 0 0.5rem;
+  background: var(--mep-white);
+  border: 1px solid var(--mep-border-strong);
+  border-radius: 999px;
+  font: inherit; font-family: var(--mep-font-heading); color: var(--mep-dark);
+  cursor: pointer;
+}
+#mep-module .mep-pagination__page:hover,
+#mep-module .mep-pagination__nav:hover:not([disabled]) { border-color: var(--mep-dark); }
+#mep-module .mep-pagination__page[aria-current="page"] { background: var(--mep-dark); border-color: var(--mep-dark); color: var(--mep-white); }
+#mep-module .mep-pagination__nav[disabled] { opacity: 0.4; cursor: default; }
+#mep-module .mep-pagination__gap { padding: 0 0.25rem; color: var(--mep-neutral); }
+#mep-module .mep-pagination__info { flex-basis: 100%; text-align: center; margin: 0; font-size: var(--mep-fs-s); color: var(--mep-neutral); }
 
 /* ---- Boutons ------------------------------------------------------------ */
 #mep-module .mep-btn {

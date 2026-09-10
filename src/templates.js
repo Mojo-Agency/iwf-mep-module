@@ -77,6 +77,12 @@ export const COPY = {
   allCountries: 'All countries',
   searchPlaceholder: 'Search by name, party or political group',
   shown: (n, total) => `${n} out of ${total} representatives shown`,
+  resultsAnnounce: (n, from, to) => `${n} representative${n === 1 ? '' : 's'} match. Showing ${from} to ${to}.`,
+  pagination: 'Pagination',
+  prevPage: 'Previous page',
+  nextPage: 'Next page',
+  pageLabel: (p) => `Page ${p}`,
+  pageInfo: (p, n) => `Page ${p} of ${n}`,
   noResult: 'No representatives match that.',
   noResultHint: 'Try another country, or clear the filters.',
   clearFilters: 'Clear filters',
@@ -112,6 +118,9 @@ export const COPY = {
   afterSend: 'Email sent? Share the campaign and encourage others to take action.',
   shareLink: 'Share the campaign',
 };
+
+// Fiches par page dans la grille (design : "9 out of 720 representatives shown").
+export const PAGE_SIZE = 9;
 
 // Séparateur des adresses en mode bulk : ";" pour Outlook, "," pour le reste. Point ouvert n°4 du brief.
 export const BULK_SEPARATOR = '; ';

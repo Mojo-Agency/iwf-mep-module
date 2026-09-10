@@ -10,7 +10,7 @@ Généré le 2026-09-10 par `scripts/build-data.mjs` (IWF phase 2, module « Con
 | Députés exportés dans le JSON | 719 |
 | Erreurs bloquantes | 0 |
 | Avertissements | 720 |
-| JSON généré | oui — 125.9 Ko brut, 26.0 Ko gzip |
+| JSON généré | oui — 125.9 Ko brut, 26.1 Ko gzip |
 
 ## Erreurs bloquantes
 
@@ -29,12 +29,14 @@ Non bloquants pour la génération, mais à trancher avant la mise en ligne.
 
 ### Par position de vote
 
+Le libellé affiché est le libellé majoritaire du CSV pour chaque position (`vote_label_en`).
+
 | Valeur CSV | Enum JSON | Libellé affiché | Députés |
 | --- | --- | --- | --- |
-| FOR | for | Said no to action against child sexual abuse | 314 |
-| AGAINST | against | Voted to fight sexual abuse online | 276 |
+| FOR | for | Didn't vote to stop child sexual abuse content online | 314 |
+| AGAINST | against | Voted to stop child sexual abuse content online | 276 |
 | ABSTENTION | abstained | Abstained | 17 |
-| DID_NOT_VOTE | absent | Did not vote | 112 |
+| DID_NOT_VOTE | absent | Absent from the vote | 112 |
 
 ### Par groupe politique
 
@@ -87,7 +89,7 @@ Non bloquants pour la génération, mais à trancher avant la mise en ligne.
 1. **Parti national** : la colonne `national_party` est vide sur toutes les lignes alors que les fiches et la recherche du design l'affichent. Merci de fournir un V03 avec cette colonne remplie (source possible : HowTheyVote ou europarl.europa.eu).
 2. **Nombre de députés** : 719 lignes pour 720 sièges. Confirmer qu'il s'agit d'un siège vacant à la date du vote, ou identifier le député manquant.
 3. **Sens de la position de vote** : le CSV décrit la position sur la motion de rejet (`FOR` = a voté pour le rejet = « Said no to action against child sexual abuse »). Le JSON conserve ce sens (`for` / `against`) et fournit les libellés à afficher ; confirmer que la bande de vote des fiches repose bien sur `vote_label_en`.
-4. **Libellé de la bande de vote** : le CSV dit « Voted to fight sexual abuse online », le design dit « Voted to fight **child** sexual abuse online ». Quel texte fait foi ?
+4. **Libellé de la bande de vote** : le CSV dit « Voted to stop child sexual abuse content online », la maquette Figma dit « Voted to fight child sexual abuse online ». Le module affiche le CSV ; confirmer que c'est le texte définitif.
 5. **Abstention / absence** : formulation de la bande pour « Abstained » et « Did not vote » (17 et 112 députés concernés).
 6. **Date sur les fiches** : le design affiche « LAST VOTE ON DETECTION · 07.9.26 » alors que `vote_date` vaut 2026-07-09 (9 juillet 2026). Format retenu par défaut dans le module : 09.07.26 (jj.mm.aa), à confirmer.
 7. **Parti national dans les fiches** : le design montre « Finland  Kansallinen Kokoomus » sous le nom ; sans `national_party` la fiche n'affichera que le pays.

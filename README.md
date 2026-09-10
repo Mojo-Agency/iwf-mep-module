@@ -23,7 +23,7 @@ npm run build:data          # data/meps.csv -> data/meps.json + reports/csv-qual
 npm run build:data:strict   # idem, les avertissements deviennent bloquants
 npm run dev                 # harness local http://localhost:5173 (index.html mocke la page Webflow)
 npm run build               # prebuild = build:data, puis dist/mep-module.min.js (IIFE, CSS inliné)
-npm run smoke               # parcours complet dans jsdom sur dist/ (47 vérifications, sans navigateur)
+npm run smoke               # parcours complet dans jsdom sur dist/ (53 vérifications, sans navigateur)
 npm test                    # build + smoke
 ```
 
@@ -33,7 +33,7 @@ Node 20 ou 21 : jsdom est épinglé en 25.x (les versions 27+ exigent Node 22).
 
 - `main.js` : montage, chargement, navigation entre étapes, synchro du stepper natif Webflow.
 - `steps/step1-find.js` : pays, recherche (nom + parti + groupe, sans diacritiques, debounce 150 ms),
-  grille 3/2/1, fiches, bouton bulk « Contact all {country} representatives », état vide.
+  grille 3/2/1 paginée 9 par page, fiches, bouton bulk « Contact all {country} representatives », état vide.
 - `steps/step2-write.js` : barre « Writing to », 3 modèles, objet et corps éditables, compteur > 1500 caractères.
 - `steps/step3-send.js` : aperçu, `mailto:` (CRLF), copier message / adresse(s), mode bulk en BCC
   (le bouton « Open in my email app » est masqué si le mailto dépasse 2000 caractères).
@@ -43,7 +43,7 @@ Node 20 ou 21 : jsdom est épinglé en 25.x (les versions 27+ exigent Node 22).
 
 ## Données
 
-- `data/meps.csv` : export Mojo, **jamais édité à la main**. Remplacer le fichier à chaque nouvelle version.
+- `data/meps.csv` : export Mojo, **jamais édité à la main**. Remplacer le fichier à chaque nouvelle version. Version en place : V03 (2026-09-10).
 - `data/meps.json` : généré, commité, servi par jsDelivr au même tag que le script.
 - `scripts/build-data.mjs` : parse, mappe alpha-3 vers alpha-2, normalise le vote, valide chaque ligne.
   Échec bruyant (exit 1, pas de JSON) si une ligne est en erreur bloquante ; le rapport Markdown
