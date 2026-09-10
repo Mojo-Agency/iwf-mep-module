@@ -75,7 +75,7 @@
   color: inherit;
   background: var(--mep-white);
   border: 1px solid var(--mep-border-strong);
-  border-radius: var(--mep-radius-s);
+  border-radius: 0;
   -webkit-appearance: none;
   appearance: none;
 }
@@ -112,7 +112,7 @@
   grid-template-rows: auto 1fr;
   background: var(--mep-white);
   border: 1px solid var(--mep-border);
-  border-radius: 0.5rem;
+  border-radius: 0;
   overflow: hidden;
 }
 #mep-module .mep-card__photo {
@@ -145,7 +145,7 @@
   display: grid; gap: 0.5rem;
   padding: 0.875rem 1rem;
   border: 1px solid var(--mep-border);
-  border-radius: 0.25rem;
+  border-radius: 0;
   color: var(--mep-dark);
   background: var(--mep-white);
 }
@@ -169,7 +169,7 @@
   padding: 0 0.5rem;
   background: var(--mep-white);
   border: 1px solid var(--mep-border-strong);
-  border-radius: 999px;
+  border-radius: 0;
   font: inherit; font-family: var(--mep-font-heading); color: var(--mep-dark);
   cursor: pointer;
 }
@@ -191,7 +191,7 @@
   color: var(--mep-white);
   background: var(--mep-brand);
   border: var(--mep-border-line) solid var(--mep-brand);
-  border-radius: 0.25rem;
+  border-radius: 0;
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.2s, border-color 0.2s, color 0.2s;
@@ -212,7 +212,7 @@
   padding: 0.5rem 1rem;
   background: var(--mep-white);
   border: var(--mep-border-line) solid var(--mep-border);
-  border-radius: var(--mep-radius-s);
+  border-radius: 0;
 }
 #mep-module .mep-writing-to__label { font-size: var(--mep-fs-s); color: var(--mep-neutral); }
 #mep-module .mep-writing-to__who { font-family: var(--mep-font-heading); }
@@ -229,7 +229,7 @@
   padding: var(--mep-gap-s);
   background: var(--mep-white);
   border: var(--mep-border-line) solid var(--mep-border);
-  border-radius: var(--mep-radius);
+  border-radius: 0;
   font: inherit; color: inherit; cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
@@ -247,7 +247,7 @@
 #mep-module .mep-preview {
   background: var(--mep-white);
   border: var(--mep-border-line) solid var(--mep-border);
-  border-radius: var(--mep-radius);
+  border-radius: 0;
   overflow: hidden;
 }
 #mep-module .mep-preview__row {
@@ -258,7 +258,7 @@
 #mep-module .mep-preview__row:last-child { border-bottom: 0; }
 #mep-module .mep-preview__key { font-size: var(--mep-fs-s); font-weight: 700; color: var(--mep-neutral); padding-top: 0.25rem; }
 #mep-module .mep-preview__body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-#mep-module .mep-notice { padding: var(--mep-gap-s); margin: 0; background: var(--mep-light); border-radius: var(--mep-radius-s); font-size: var(--mep-fs-s); }
+#mep-module .mep-notice { padding: var(--mep-gap-s); margin: 0; background: var(--mep-light); border-radius: 0; font-size: var(--mep-fs-s); }
 #mep-module .mep-btn.is-copied { background: var(--mep-ok); border-color: var(--mep-ok); color: var(--mep-white); }
 #mep-module .mep-after a { color: var(--mep-brand); }
 
@@ -267,14 +267,14 @@
 #mep-module .mep-error {
   grid-column: 1 / -1;
   padding: var(--mep-gap);
-  border-radius: var(--mep-radius);
+  border-radius: 0;
   background: var(--mep-light);
   text-align: center;
 }
 #mep-module .mep-error { border: var(--mep-border-line) solid var(--mep-brand); }
 #mep-module .mep-skeleton {
   min-height: 9rem;
-  border-radius: var(--mep-radius);
+  border-radius: 0;
   background: linear-gradient(90deg, var(--mep-light) 25%, var(--mep-white) 50%, var(--mep-light) 75%);
   background-size: 200% 100%;
   animation: mep-shimmer 1.2s infinite;
