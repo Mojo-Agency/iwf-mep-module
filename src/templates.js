@@ -1,6 +1,6 @@
 // Textes du parcours. Source : exports Figma (sources/design-copy/*.txt).
 // "The full case" est le texte intégral du design. "Short and direct" et "Personal" ne sont pas
-// dans les maquettes : ce sont des BROUILLONS 65inches à remplacer par les textes validés par
+// dans les maquettes : ce sont des BROUILLONS à remplacer par les textes validés par
 // Mojo/IWF (point ouvert n°1 du brief). Les crochets [ ... ] sont à compléter par le citoyen.
 
 export const SUBJECT = 'Your vote on the Child Sexual Abuse Regulation (CSAR)';
