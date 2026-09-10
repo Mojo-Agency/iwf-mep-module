@@ -2,7 +2,18 @@
 
 Module « Contact your MEP » de la campagne IWF *The petition no one would sign* (phase 2, Mojo Agency).
 Vanilla JS bundlé par Vite en un seul fichier, monté sur la page Webflow `/contact-your-mep`
-via un `<script>` jsDelivr épinglé sur un tag git. Brief complet : [iwf.md](iwf.md).
+via un `<script>` jsDelivr épinglé sur un tag git. Dépôt : https://github.com/Mojo-Agency/iwf-mep-module
+(public, requis par jsDelivr). Le brief de mission reste hors dépôt.
+
+## Livrer une nouvelle version
+
+```bash
+npm test                                  # build + smoke, dist/ et data/ sont commités
+git commit -am "..." && git tag -a v1.0.1 -m "..." && git push origin main v1.0.1
+```
+
+Puis dans Webflow, custom code de la page (before `</body>`) : mettre à jour le tag **et** le hash SRI
+(`openssl dgst -sha384 -binary dist/mep-module.min.js | openssl base64 -A`), puis publier.
 
 ## Commandes
 
@@ -71,7 +82,7 @@ Schéma du JSON :
   stepper `[data-mep-step="1|2|3"]` (classes `is-active` / `is-done` et `aria-current` gérées par le module),
   section module avec `<div id="mep-module"></div>`, bloc d'attribution HowTheyVote.
 - Custom code de la page (before `</body>`), à activer une fois le repo publié et taggé :
-  `<script src="https://cdn.jsdelivr.net/gh/<owner>/iwf-mep-module@vX.Y.Z/dist/mep-module.min.js" defer></script>`
+  `<script src="https://cdn.jsdelivr.net/gh/Mojo-Agency/iwf-mep-module@vX.Y.Z/dist/mep-module.min.js" defer></script>`
 - Le module lit `meps.json` à `../data/meps.json` par rapport à l'URL du script (même tag).
   Surcharges possibles : attribut `data-src` sur `#mep-module` ou `window.MEP_MODULE_DATA_URL`.
 - **Jamais `@latest` ni une branche : toujours un tag.**
