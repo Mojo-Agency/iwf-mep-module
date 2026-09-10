@@ -1,15 +1,17 @@
-// Textes du parcours. Copy des écrans : exports Figma (sources/design-copy/*.txt).
-// Modèles de mail : version définitive fournie par Mojo/IWF le 2026-09-10 ("IWF - mail to MEPs"),
-// copie de référence dans sources/design-copy/mail-templates.md. Les crochets [ ... ] sont à compléter
-// par le citoyen. Deux détails du document source ont été corrigés : "Dear Dear" (doublon) et rien d'autre.
+# Modèles de mail aux eurodéputés (version définitive Mojo/IWF, 2026-09-10)
 
-const SIGNATURE = `Kind regards,
-[Your name]
-[Your town or city, country]
+Source : document « IWF - mail to MEPs » transmis par Mojo. Transcrit dans `src/templates.js` (source de vérité du module).
 
-More information and policy brief to be found on thepetitionnoonewouldsign.com`;
+## The full case
 
-const FULL_CASE = `Dear Member of the European Parliament,
+**Card description:** The facts, the stakes and six clear requests. For when you want to set out the whole argument.
+
+**Subject line:** A request from someone you represent on the Child Sexual Abuse Regulation
+
+**Length:** 572 words, 3469 characters
+
+```text
+Dear Member of the European Parliament,
 
 I am writing to you as one of the people you represent, about the EU Child Sexual Abuse Regulation. Negotiations resume this autumn, and the decisions made in the coming months will shape how effectively child sexual abuse can be prevented, found, removed and stopped from spreading online. Those decisions will be made in my name, and I would like to know where you stand.
 
@@ -34,11 +36,25 @@ No one would sign a petition asking for more child sexual abuse online. I do not
 
 Could you let me know whether you will support a final agreement that includes these elements, and how you intend to vote when it comes before Parliament?
 
-${SIGNATURE}
+Kind regards,
+[Your name]
+[Your town or city, country]
 
-Sources: Internet Watch Foundation, 2025 Data & Insights Report (iwf.org.uk); National Center for Missing and Exploited Children (2020).`;
+More information and policy brief to be found on thepetitionnoonewouldsign.com
 
-const SHORT_AND_DIRECT = `Dear Member of the European Parliament,
+Sources: Internet Watch Foundation, 2025 Data & Insights Report (iwf.org.uk); National Center for Missing and Exploited Children (2020).
+```
+
+## Short and direct
+
+**Card description:** A few lines and one clear request. Quick to send, quick to read.
+
+**Subject line:** Please support a strong Child Sexual Abuse Regulation
+
+**Length:** 170 words, 1015 characters
+
+```text
+Dear Member of the European Parliament,
 
 I am one of the people you represent, and I am asking you to support a strong EU Child Sexual Abuse Regulation.
 
@@ -50,9 +66,23 @@ No one would sign a petition for more child sexual abuse online. But a weak or d
 
 Will you support a strong Regulation when it comes to a vote? I would be grateful to know where you stand.
 
-${SIGNATURE}`;
+Kind regards,
+[Your name]
+[Your town or city, country]
 
-const PERSONAL = `Dear Member of the European Parliament,
+More information and policy brief to be found on thepetitionnoonewouldsign.com
+```
+
+## Personal
+
+**Card description:** Why this matters to you, with room for a line in your own words.
+
+**Subject line:** Something I would rather not have to write about
+
+**Length:** 357 words, 1992 characters
+
+```text
+Dear Member of the European Parliament,
 
 I am writing to you as one of the people you represent, about something most of us would rather not think about.
 
@@ -72,95 +102,9 @@ I know these negotiations are complex. I am not asking you to ignore that. I am 
 
 When the final text comes to a vote, I hope you will put your name to protecting them. Will you tell me where you stand?
 
-${SIGNATURE}`;
+Kind regards,
+[Your name]
+[Your town or city, country]
 
-export const TEMPLATES = [
-  {
-    id: 'full',
-    title: 'The full case',
-    description: 'The facts, the stakes and six clear requests. For when you want to set out the whole argument.',
-    subject: 'A request from someone you represent on the Child Sexual Abuse Regulation',
-    body: FULL_CASE,
-  },
-  {
-    id: 'short',
-    title: 'Short and direct',
-    description: 'A few lines and one clear request. Quick to send, quick to read.',
-    subject: 'Please support a strong Child Sexual Abuse Regulation',
-    body: SHORT_AND_DIRECT,
-  },
-  {
-    id: 'personal',
-    title: 'Personal',
-    description: 'Why this matters to you, with room for a line in your own words.',
-    subject: 'Something I would rather not have to write about',
-    body: PERSONAL,
-  },
-];
-
-export const COPY = {
-  step1Title: 'Find your representative',
-  countryLabel: 'Search by country',
-  allCountries: 'All countries',
-  searchLabel: 'Search by name, party or political group',
-  shown: (n, total) => `${n} out of ${total} representatives shown`,
-  resultsAnnounce: (n, from, to) => `${n} representative${n === 1 ? '' : 's'} match. Showing ${from} to ${to}.`,
-  pagination: 'Pagination',
-  prevPage: 'Previous page',
-  nextPage: 'Next page',
-  pageLabel: (p) => `Page ${p}`,
-  pageInfo: (p, n) => `Page ${p} of ${n}`,
-  noResult: 'No representatives match that.',
-  noResultHint: 'Try another country, or clear the filters.',
-  clearFilters: 'Clear filters',
-  contactAll: (country) => `Contact all ${country} representatives`,
-  voteKicker: (date) => `Last vote on detection · ${date}`,
-  source: 'Source',
-  writeTo: 'Write to this MEP',
-
-  writingTo: 'Writing to',
-  allMepsIn: (n, country) => `All ${n} MEPs in ${country}`,
-  change: 'Change',
-  step2Title: 'Choose a starting point',
-  subject: 'Subject',
-  message: 'Message',
-  continueBtn: 'Continue',
-  editNote: "Feel free to edit this. A message in your own words is always more effective. Please don't include personal details about yourself or anyone else.",
-  longMessage: 'Long messages may not open in some email apps, use the copy button below.',
-  emptyFields: 'Please write a subject and a message before continuing.',
-
-  step3Title: 'Review and send',
-  to: 'To',
-  edit: 'Edit',
-  sendNotice: "This will open your own email app with the message ready to send. Your message goes directly from you to your representative. We never see it, and we don't keep a copy. Once sent, it can't be recalled.",
-  beforeYouSend: 'Before you send',
-  // Fin de phrase tronquée dans l'export PDF : "This keeps the recipient list …" — à confirmer avec Mojo.
-  bccNotice: 'Paste the addresses into the BCC field of your email, not To or CC. This keeps the recipient list private.',
-  copyMessage: 'Copy message',
-  copyEmail: 'Copy email address',
-  copyAllEmails: (n) => `Copy all ${n} email addresses`,
-  openEmail: 'Open in my email app',
-  copied: 'Copied ✓',
-  copyFailed: 'Copy failed, select the text and copy it manually.',
-  afterSend: 'Email sent? Share the campaign and encourage others to take action.',
-  shareX: 'Share on X',
-  shareLinkedIn: 'Share on LinkedIn',
-  shareFacebook: 'Share on Facebook',
-  bulkUseCopy: 'Too many addresses for a single email link: copy the addresses and the message below.',
-};
-
-// Partage : URL publique de la campagne uniquement, jamais de donnée du parcours.
-export const SHARE = {
-  url: 'https://thepetitionnoonewouldsign.com/',
-  text: 'The petition no one would sign - ask your MEP where they stand.',
-};
-
-// Fiches par page dans la grille (design : "9 out of 720 representatives shown").
-export const PAGE_SIZE = 9;
-
-// Séparateur des adresses en mode bulk : ";" pour Outlook, "," pour le reste. Point ouvert n°4 du brief.
-export const BULK_SEPARATOR = '; ';
-
-// Au-delà, certains clients (Outlook desktop) tronquent ou refusent le mailto.
-export const MAILTO_SOFT_LIMIT = 2000;
-export const BODY_WARN_LENGTH = 1500;
+More information and policy brief to be found on thepetitionnoonewouldsign.com
+```

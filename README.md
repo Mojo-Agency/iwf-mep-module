@@ -37,8 +37,8 @@ Node 20 ou 21 : jsdom est épinglé en 25.x (les versions 27+ exigent Node 22).
 - `steps/step2-write.js` : barre « Writing to », 3 modèles, objet et corps éditables, compteur > 1500 caractères.
 - `steps/step3-send.js` : aperçu, `mailto:` (CRLF), copier message / adresse(s), mode bulk en BCC
   (le bouton « Open in my email app » est masqué si le mailto dépasse 2000 caractères).
-- `templates.js` : toute la copy du parcours et les 3 modèles. **« Short and direct » et « Personal »
-  sont des brouillons** à remplacer par les textes validés par Mojo/IWF.
+- `templates.js` : toute la copy du parcours et les 3 modèles définitifs (objet + message chacun),
+  fournis par Mojo/IWF le 2026-09-10. Copie de référence : `sources/design-copy/mail-templates.md`.
 - `analytics.js` : `dataLayer.push({ event: "mep_contact_click", country })`, no-op sans dataLayer.
 
 ## Données

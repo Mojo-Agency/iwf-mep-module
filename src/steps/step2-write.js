@@ -2,7 +2,7 @@
 // bouton Continue pleine largeur, compteur et note en dessous).
 import { h } from '../ui.js';
 import { countryLabel } from '../data.js';
-import { COPY, SUBJECT, TEMPLATES, BODY_WARN_LENGTH } from '../templates.js';
+import { COPY, TEMPLATES, BODY_WARN_LENGTH } from '../templates.js';
 
 export function writingToBar(ctx) {
   const { state, goTo } = ctx;
@@ -32,7 +32,7 @@ export function renderStep2(ctx) {
 
   if (state.template === null) {
     state.template = 0;
-    state.subject = SUBJECT;
+    state.subject = TEMPLATES[0].subject;
     state.body = TEMPLATES[0].body;
   }
 
@@ -54,7 +54,7 @@ export function renderStep2(ctx) {
     'aria-pressed': String(i === state.template),
     onclick: () => {
       state.template = i;
-      state.subject = SUBJECT;
+      state.subject = t.subject;
       state.body = t.body;
       subject.value = state.subject;
       body.value = state.body;
