@@ -247,9 +247,8 @@
 #mep-module .mep-error-text { font-size: var(--mep-fs-s); color: var(--mep-brand); font-weight: 700; margin: 0; }
 #mep-module .mep-actions { display: flex; flex-wrap: wrap; gap: var(--mep-gap-s); }
 
-/* ---- Étapes 2 et 3 : contenu en retrait latéral (design) ----------------- */
-#mep-module .mep-step--2,
-#mep-module .mep-step--3 { padding: 0 3rem; }
+/* ---- Toutes les étapes : contenu en retrait latéral (design), même valeur que le bloc d'attribution */
+#mep-module .mep-step { padding: 0 3rem; }
 
 /* ---- Étape 3 : aperçu, envoi, partage ----------------------------------- */
 #mep-module .mep-preview {
@@ -311,12 +310,10 @@
   #mep-module .mep-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media screen and (max-width: 991px) {
-  #mep-module .mep-step--2,
-  #mep-module .mep-step--3 { padding: 0 1rem; }
+  #mep-module .mep-step { padding: 0 1rem; }
 }
 @media screen and (max-width: 767px) {
-  #mep-module .mep-step--2,
-  #mep-module .mep-step--3 { padding: 0; }
+  #mep-module .mep-step { padding: 0; }
   #mep-module .mep-toolbar { grid-template-columns: 1fr; }
   #mep-module .mep-templates { grid-template-columns: 1fr; }
   #mep-module .mep-preview__row { grid-template-columns: 1fr; gap: 0.25rem; }

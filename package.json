@@ -1,6 +1,6 @@
 {
   "name": "iwf-mep-module",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "private": true,
   "description": "IWF phase 2 - Contact your MEP module (vanilla JS, Vite lib build, mounted on Webflow)",
   "type": "module",
