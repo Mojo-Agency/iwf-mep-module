@@ -94,7 +94,7 @@ export function renderStep1(ctx) {
   });
   const countEl = h('p', { class: 'mep-status' });
   const bulkWrap = h('div', { class: 'mep-bulk' });
-  const resultsBar = h('div', { class: 'mep-results-bar' }, countEl, bulkWrap);
+  const resultsBar = countEl;
   const grid = h('ul', { class: 'mep-grid', tabindex: '-1' });
   const pagerWrap = h('div', { class: 'mep-pager' });
 
@@ -118,7 +118,7 @@ export function renderStep1(ctx) {
       const all = data.meps.filter((m) => m.country === state.country);
       bulkWrap.append(h('button', {
         type: 'button',
-        class: 'mep-btn',
+        class: 'mep-btn mep-btn--block',
         text: COPY.contactAll(countryLabel(state.country)),
         onclick: () => {
           state.selectedMep = { bulk: true, country: state.country, meps: all };
@@ -148,7 +148,8 @@ export function renderStep1(ctx) {
       grid.append(frag);
     }
 
-    countEl.textContent = COPY.shown(pageItems.length, data.meps.length);
+    // Compteur = nombre de députés correspondant au filtre (pas seulement la page affichée).
+    countEl.textContent = COPY.shown(results.length, data.meps.length);
     announce(results.length ? COPY.resultsAnnounce(results.length, start + 1, start + pageItems.length) : COPY.noResult);
 
     if (focusResults) {
@@ -166,6 +167,7 @@ export function renderStep1(ctx) {
       h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-country', text: COPY.countryLabel }), select),
       h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-search', text: COPY.searchLabel }), input),
     ),
+    bulkWrap,
     resultsBar,
     grid,
     pagerWrap,

@@ -1,5 +1,6 @@
-// Étape 2 : rédiger (barre "Writing to", 3 modèles, objet et corps éditables, compteur).
-import { h, prettyName } from '../ui.js';
+// Étape 2 : rédiger (vignette "Writing to" avec photo, 3 cases de choix, objet et corps éditables,
+// bouton Continue pleine largeur, compteur et note en dessous).
+import { h } from '../ui.js';
 import { countryLabel } from '../data.js';
 import { COPY, SUBJECT, TEMPLATES, BODY_WARN_LENGTH } from '../templates.js';
 
@@ -8,10 +9,19 @@ export function writingToBar(ctx) {
   const sel = state.selectedMep;
   const who = sel.bulk
     ? COPY.allMepsIn(sel.meps.length, countryLabel(sel.country))
-    : `${prettyName(sel)}, ${countryLabel(sel.country)}`;
+    : `${sel.name}, ${countryLabel(sel.country)}`;
+  const photo = sel.bulk
+    ? null
+    : h('img', {
+      class: 'mep-writing-to__photo', src: sel.photo, alt: '', width: 56, height: 56, loading: 'lazy',
+      onerror: (e) => e.target.remove(),
+    });
   return h('div', { class: 'mep-writing-to' },
-    h('span', { class: 'mep-writing-to__label', text: COPY.writingTo }),
-    h('strong', { class: 'mep-writing-to__who', text: who }),
+    photo,
+    h('div', { class: 'mep-writing-to__text' },
+      h('span', { class: 'mep-writing-to__label', text: COPY.writingTo }),
+      h('strong', { class: 'mep-writing-to__who', text: who }),
+    ),
     h('button', { type: 'button', class: 'mep-link', text: COPY.change, onclick: () => goTo(1) }),
   );
 }
@@ -53,7 +63,10 @@ export function renderStep2(ctx) {
       announce(`${t.title} selected. Subject and message updated.`);
     },
   },
-    h('span', { class: 'mep-template__title', text: t.title }),
+    h('span', { class: 'mep-template__head' },
+      h('span', { class: 'mep-template__title', text: t.title }),
+      h('span', { class: 'mep-template__check', 'aria-hidden': 'true', text: '✓' }),
+    ),
     h('span', { class: 'mep-template__desc', text: t.description }),
   ));
 
@@ -65,25 +78,24 @@ export function renderStep2(ctx) {
     h('h2', { class: 'mep-step__title', id: 'mep-step2-title', tabindex: '-1', text: COPY.step2Title }),
     h('div', { class: 'mep-templates', role: 'group', 'aria-label': COPY.step2Title }, cards),
     h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-subject', text: COPY.subject }), subject),
-    h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-body', text: COPY.message }), body, counter),
-    h('p', { class: 'mep-note', text: COPY.editNote }),
+    h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-body', text: COPY.message }), body),
     error,
-    h('div', { class: 'mep-actions' },
-      h('button', {
-        type: 'button', class: 'mep-btn', text: COPY.continueBtn,
-        onclick: () => {
-          state.subject = subject.value.trim();
-          state.body = body.value.trim();
-          if (!state.subject || !state.body) {
-            error.hidden = false;
-            error.textContent = COPY.emptyFields;
-            (state.subject ? body : subject).focus();
-            return;
-          }
-          goTo(3);
-        },
-      }),
-    ),
+    h('button', {
+      type: 'button', class: 'mep-btn mep-btn--block', text: COPY.continueBtn,
+      onclick: () => {
+        state.subject = subject.value.trim();
+        state.body = body.value.trim();
+        if (!state.subject || !state.body) {
+          error.hidden = false;
+          error.textContent = COPY.emptyFields;
+          (state.subject ? body : subject).focus();
+          return;
+        }
+        goTo(3);
+      },
+    }),
+    counter,
+    h('p', { class: 'mep-note', text: COPY.editNote }),
   );
   updateCounter();
   return section;
