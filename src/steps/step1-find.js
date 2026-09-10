@@ -5,40 +5,40 @@ import { COPY, PAGE_SIZE } from '../templates.js';
 
 function renderCard(mep, ctx) {
   const { data, state, goTo } = ctx;
+  // Design STEP 01 : photo pleine largeur en tête de carte, puis nom, "Pays • Parti", groupe en gris,
+  // encart de vote blanc à bordure fine, bouton rouge plein.
   const photo = h('img', {
     class: 'mep-card__photo',
     src: mep.photo,
     alt: '',
     loading: 'lazy',
-    width: 80,
-    height: 80,
+    width: 348,
+    height: 245,
     onerror: (e) => {
-      e.target.replaceWith(h('span', { class: 'mep-card__photo', 'aria-hidden': 'true', text: initials(mep.name) }));
+      e.target.replaceWith(h('span', { class: 'mep-card__photo mep-card__photo--fallback', 'aria-hidden': 'true', text: initials(mep.name) }));
     },
   });
-  const countryParty = [countryLabel(mep.country), mep.party].filter(Boolean).join('  ');
+  const countryParty = [countryLabel(mep.country), mep.party].filter(Boolean).join(' • ');
   const groupFull = data.groups && data.groups[mep.group] ? `${mep.group} (${data.groups[mep.group]})` : mep.group;
 
   return h('li', { class: 'mep-card' },
-    h('div', { class: 'mep-card__head' },
-      photo,
+    photo,
+    h('div', { class: 'mep-card__body' },
       h('div', { class: 'mep-card__identity' },
         h('h3', { class: 'mep-card__name', text: mep.name }),
         h('p', { class: 'mep-card__meta', text: countryParty }),
-        h('p', { class: 'mep-card__meta', text: groupFull }),
+        h('p', { class: 'mep-card__meta mep-card__meta--group', text: groupFull }),
       ),
-    ),
-    h('div', { class: `mep-card__vote mep-card__vote--${mep.vote}` },
-      h('div', { class: 'mep-card__vote-row' },
-        h('span', { class: 'mep-card__vote-kicker', text: COPY.voteKicker(formatVoteDate(data.voteDate)) }),
-        h('a', { class: 'mep-card__vote-source', href: mep.voteUrl, target: '_blank', rel: 'noopener', text: COPY.source, 'aria-label': `${COPY.source}: vote of ${mep.name}` }),
+      h('div', { class: `mep-card__vote mep-card__vote--${mep.vote}` },
+        h('div', { class: 'mep-card__vote-row' },
+          h('span', { class: 'mep-card__vote-kicker', text: COPY.voteKicker(formatVoteDate(data.voteDate)) }),
+          h('a', { class: 'mep-card__vote-source', href: mep.voteUrl, target: '_blank', rel: 'noopener', text: COPY.source, 'aria-label': `${COPY.source}: vote of ${mep.name}` }),
+        ),
+        h('span', { class: 'mep-card__vote-label', text: mep.label }),
       ),
-      h('span', { class: 'mep-card__vote-label', text: mep.label }),
-    ),
-    h('div', { class: 'mep-card__actions' },
       h('button', {
         type: 'button',
-        class: 'mep-btn mep-btn--outline mep-btn--block',
+        class: 'mep-btn mep-btn--block',
         'aria-label': `${COPY.writeTo}: ${mep.name}`,
         text: COPY.writeTo,
         onclick: () => {
