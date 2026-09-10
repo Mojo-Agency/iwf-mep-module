@@ -161,7 +161,7 @@ export function renderStep1(ctx) {
   select.addEventListener('change', () => { state.country = select.value || null; state.page = 1; update(); });
   input.addEventListener('input', debounce(() => { state.query = input.value; state.page = 1; update(); }, 150));
 
-  const section = h('section', { class: 'mep-step', 'aria-labelledby': 'mep-step1-title' },
+  const section = h('section', { class: 'mep-step mep-step--1', 'aria-labelledby': 'mep-step1-title' },
     h('h2', { class: 'mep-step__title', id: 'mep-step1-title', tabindex: '-1', text: COPY.step1Title }),
     h('div', { class: 'mep-toolbar' },
       h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-country', text: COPY.countryLabel }), select),

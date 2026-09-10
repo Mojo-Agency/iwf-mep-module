@@ -78,18 +78,33 @@ export async function copyText(value) {
   }
 }
 
-/** Remplace le libellé d'un bouton pendant 2 s ("Copied ✓") puis le restaure. */
+/** Remplace le libellé d'un bouton pendant 2 s ("Copied ✓") puis le restaure (icône comprise). */
 export function flashLabel(button, label, ms = 2000) {
   if (button.dataset.flashing) return;
-  const original = button.textContent;
+  const original = [...button.childNodes];
   button.dataset.flashing = '1';
-  button.textContent = label;
+  button.replaceChildren(document.createTextNode(label));
   button.classList.add('is-copied');
   setTimeout(() => {
-    button.textContent = original;
+    button.replaceChildren(...original);
     button.classList.remove('is-copied');
     delete button.dataset.flashing;
   }, ms);
+}
+
+// Icônes statiques (aucune donnée injectée) : SVG inline via un gabarit HTML.
+const ICONS = {
+  copy: '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>',
+  x: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.9 2H22l-7.2 8.3L23.2 22h-6.6l-5.2-6.8L5.5 22H2.4l7.7-8.8L2 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.8L7.4 3.9H5.5L17.7 20z"/></svg>',
+  linkedin: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.9 8.5H3.4V21h3.5V8.5zM5.2 3a2 2 0 1 0 0 4.1 2 2 0 0 0 0-4.1zM21 13.4c0-3.6-2-5.2-4.5-5.2-2 0-2.9 1.1-3.4 1.9V8.5H9.6V21h3.5v-6.9c0-1.8.4-3.6 2.6-3.6 2.2 0 2.2 2.1 2.2 3.7V21H21v-7.6z"/></svg>',
+  facebook: '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.5 22v-8.2h2.8l.4-3.3h-3.2V8.4c0-.9.3-1.6 1.6-1.6h1.7V3.9c-.3 0-1.3-.1-2.5-.1-2.5 0-4.2 1.5-4.2 4.3v2.4H7.3v3.3h2.8V22h3.4z"/></svg>',
+};
+export function icon(name) {
+  const tpl = document.createElement('template');
+  tpl.innerHTML = ICONS[name] || '';
+  const svg = tpl.content.firstElementChild;
+  if (svg) { svg.setAttribute('aria-hidden', 'true'); svg.setAttribute('focusable', 'false'); svg.classList.add('mep-icon'); }
+  return svg;
 }
 
 /** Construit un lien mailto avec encodage strict et fins de ligne CRLF (Outlook). */

@@ -116,7 +116,16 @@ export const COPY = {
   copied: 'Copied ✓',
   copyFailed: 'Copy failed, select the text and copy it manually.',
   afterSend: 'Email sent? Share the campaign and encourage others to take action.',
-  shareLink: 'Share the campaign',
+  shareX: 'Share on X',
+  shareLinkedIn: 'Share on LinkedIn',
+  shareFacebook: 'Share on Facebook',
+  bulkUseCopy: 'Too many addresses for a single email link: copy the addresses and the message below.',
+};
+
+// Partage : URL publique de la campagne uniquement, jamais de donnée du parcours.
+export const SHARE = {
+  url: 'https://thepetitionnoonewouldsign.com/',
+  text: 'The petition no one would sign - ask your MEP where they stand.',
 };
 
 // Fiches par page dans la grille (design : "9 out of 720 representatives shown").

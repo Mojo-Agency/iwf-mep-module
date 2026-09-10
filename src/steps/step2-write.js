@@ -73,7 +73,7 @@ export function renderStep2(ctx) {
   subject.addEventListener('input', () => { state.subject = subject.value; });
   body.addEventListener('input', () => { state.body = body.value; updateCounter(); });
 
-  const section = h('section', { class: 'mep-step', 'aria-labelledby': 'mep-step2-title' },
+  const section = h('section', { class: 'mep-step mep-step--2', 'aria-labelledby': 'mep-step2-title' },
     writingToBar(ctx),
     h('h2', { class: 'mep-step__title', id: 'mep-step2-title', tabindex: '-1', text: COPY.step2Title }),
     h('div', { class: 'mep-templates', role: 'group', 'aria-label': COPY.step2Title }, cards),

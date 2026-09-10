@@ -247,24 +247,45 @@
 #mep-module .mep-error-text { font-size: var(--mep-fs-s); color: var(--mep-brand); font-weight: 700; margin: 0; }
 #mep-module .mep-actions { display: flex; flex-wrap: wrap; gap: var(--mep-gap-s); }
 
-/* ---- Étape 3 : aperçu, notice, boutons ---------------------------------- */
+/* ---- Étapes 2 et 3 : contenu en retrait latéral (design) ----------------- */
+#mep-module .mep-step--2,
+#mep-module .mep-step--3 { padding: 0 3rem; }
+
+/* ---- Étape 3 : aperçu, envoi, partage ----------------------------------- */
 #mep-module .mep-preview {
+  display: grid; gap: 1.25rem;
+  padding: 1.5rem;
   background: var(--mep-white);
-  border: var(--mep-border-line) solid var(--mep-border);
-  border-radius: 0;
-  overflow: hidden;
+  border: 1px solid var(--mep-border);
 }
-#mep-module .mep-preview__row {
-  display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; gap: var(--mep-gap-s); align-items: start;
-  padding: var(--mep-gap-s);
-  border-bottom: var(--mep-border-line) solid var(--mep-border);
-}
-#mep-module .mep-preview__row:last-child { border-bottom: 0; }
-#mep-module .mep-preview__key { font-size: var(--mep-fs-s); font-weight: 700; color: var(--mep-neutral); padding-top: 0.25rem; }
+#mep-module .mep-preview__row { display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; }
+#mep-module .mep-preview__key { font-family: var(--mep-font-heading); font-size: 1rem; color: var(--mep-dark); }
 #mep-module .mep-preview__body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
-#mep-module .mep-notice { padding: var(--mep-gap-s); margin: 0; background: var(--mep-light); border-radius: 0; font-size: var(--mep-fs-s); }
+#mep-module .mep-preview__email { color: var(--mep-neutral); }
+#mep-module .mep-preview__message { display: grid; gap: 0.75rem; }
+#mep-module .mep-preview__head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+#mep-module .mep-send { display: grid; gap: 0.75rem; }
+#mep-module .mep-send__row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.75rem; align-items: stretch; }
+#mep-module .mep-send__notice { display: grid; gap: 0.5rem; align-content: center; }
+#mep-module .mep-notice { margin: 0; font-size: var(--mep-fs-s); line-height: 1.5; color: var(--mep-neutral-dark); }
+#mep-module .mep-icon { width: 1em; height: 1em; flex: none; margin-left: 0.5rem; }
 #mep-module .mep-btn.is-copied { background: var(--mep-ok); border-color: var(--mep-ok); color: var(--mep-white); }
-#mep-module .mep-after a { color: var(--mep-brand); }
+#mep-module .mep-share {
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1rem 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid var(--mep-border);
+}
+#mep-module .mep-share__text { margin: 0; font-size: var(--mep-fs-s); color: var(--mep-neutral-dark); }
+#mep-module .mep-share__list { display: flex; gap: 0.5rem; list-style: none; margin: 0; padding: 0; }
+/* Exception assumée à la règle "aucun arrondi" : les icônes sociales sont des pastilles rondes dans la maquette. */
+#mep-module .mep-share__link {
+  display: grid; place-items: center;
+  width: 2.5rem; height: 2.5rem;
+  border: 1px solid var(--mep-dark); border-radius: 50%;
+  color: var(--mep-dark);
+}
+#mep-module .mep-share__link:hover { background: var(--mep-dark); color: var(--mep-white); }
+#mep-module .mep-share__link .mep-icon { margin: 0; }
 
 /* ---- États --------------------------------------------------------------- */
 #mep-module .mep-empty,
@@ -289,10 +310,17 @@
 @media screen and (max-width: 991px) {
   #mep-module .mep-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+@media screen and (max-width: 991px) {
+  #mep-module .mep-step--2,
+  #mep-module .mep-step--3 { padding: 0 1rem; }
+}
 @media screen and (max-width: 767px) {
+  #mep-module .mep-step--2,
+  #mep-module .mep-step--3 { padding: 0; }
   #mep-module .mep-toolbar { grid-template-columns: 1fr; }
   #mep-module .mep-templates { grid-template-columns: 1fr; }
   #mep-module .mep-preview__row { grid-template-columns: 1fr; gap: 0.25rem; }
+  #mep-module .mep-send__row { grid-template-columns: 1fr; }
   #mep-module .mep-actions .mep-btn { width: 100%; }
 }
 @media screen and (max-width: 479px) {
