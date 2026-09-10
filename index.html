@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Harness · Contact your MEP (mock de la page Webflow)</title>
+  <!--
+    Harness de dev local : reproduit la page Webflow /contact-your-mep (navbar dark, hero + stepper,
+    div cible, mention HowTheyVote, footer) avec les VRAIES polices du site (woff2 auto-hébergés sur
+    le CDN Webflow) et les variables CSS du design system phase 1 (relevées via l'API Webflow le 2026-09-10).
+    Ne jamais copier ce fichier dans Webflow : seul dist/mep-module.min.js y est chargé.
+  -->
+  <link rel="preconnect" href="https://cdn.prod.website-files.com" crossorigin>
+  <style>
+    /* ---- Polices du site (mêmes fichiers que la préprod) ------------------------------------ */
+    @font-face {
+      font-family: "Lexia Custom";
+      src: url("https://cdn.prod.website-files.com/6a8bf9417fc0461d37318f8b/6a8c050b4bb90fa73707e3b0_Lexia_Bd.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Firasans Custom";
+      src: url("https://cdn.prod.website-files.com/6a8bf9417fc0461d37318f8b/6a8bfab54bb90fa737063a92_FiraSans-Regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "Firasans Custom";
+      src: url("https://cdn.prod.website-files.com/6a8bf9417fc0461d37318f8b/6a8bfab5d81dc36b1bfdd767_FiraSans-Bold.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    /* ---- Variables Webflow (collections general / ColorSwatch / ColorTheme / ResponsiveSizing) -- */
+    :root {
+      --font--primary: "Firasans Custom", "Fira Sans", Arial, sans-serif;
+      --font--secondary: "Lexia Custom", Georgia, serif;
+      --font--text: var(--font--primary);
+      --font--heading: var(--font--secondary);
+      --font--button: var(--font--secondary);
+
+      --_colorswatch---brand-1: #e81911;
+      --_colorswatch---brand-2: #303030;
+      --_colorswatch---brand-3: whitesmoke;
+      --_colorswatch---brand-4: #444443;
+      --_colorswatch---brand-5: #9e1d1f;
+      --_colorswatch---black: #000;
+      --_colorswatch---white: white;
+      --_colorswatch---brand-1_50: color-mix(in srgb, var(--_colorswatch---brand-1) 50%, transparent);
+      --_colorswatch---brand-2_50: color-mix(in srgb, var(--_colorswatch---brand-2) 50%, transparent);
+      --_colortheme---bg: var(--_colorswatch---brand-3);
+      --_colortheme---text: var(--_colorswatch---brand-2);
+      --_colortheme---heading: var(--_colorswatch---brand-2);
+      --_colortheme---heading-span: var(--_colorswatch---brand-1);
+      --_colortheme---link-hover: var(--_colorswatch---brand-1);
+      --_colortheme---grey-border: #eaeaea;
+      --_colortheme---span-bg-color: white;
+      --_buttonstyles---button-bg: var(--_colorswatch---brand-1);
+      --_buttonstyles---border-color: var(--_colorswatch---brand-1);
+      --_buttonstyles---button-text: var(--_colorswatch---white);
+      --_buttonstyles---button-bg_hover: var(--_colorswatch---brand-2);
+      --_buttonstyles---border-color_hover: var(--_colorswatch---brand-2);
+      --_buttonstyles---button-text_hover: var(--_colorswatch---white);
+      --_navbar---bg: transparent;
+      --_navbar---text: var(--_colorswatch---brand-3);
+      --_navbar---height: 6.125rem;
+      --_navbar---padding-topbottom: 1.5rem;
+
+      --accessibility--min-touch: 48px;
+      --max-width--container: 1920px;
+      --max-width--max-width-xl: 75rem;
+      --max-width--max-width-l: 60rem;
+      --max-width--max-width-m: 44.25rem;
+      --max-width--max-width-r: 38rem;
+      --max-width--max-width-s: 30rem;
+      --max-width--max-width-xs: 30rem;
+      --max-width--max-width-xxs: 21.125rem;
+      --radius--radius-l: 22rem;
+      --radius--radius-m: 18.5rem;
+      --radius--radius-s: 3.75rem;
+      --radius--radius-xs: 1rem;
+      --border--border-line: 2px;
+
+      --_responsivesizing---fontsize-main: 1rem;
+      --_responsivesizing---fontsize-h0: 12.5rem;
+      --_responsivesizing---fontsize-h1: 6.25rem;
+      --_responsivesizing---fontsize-h2: 5rem;
+      --_responsivesizing---fontsize-h3: 3.75rem;
+      --_responsivesizing---fontsize-h4: 2.125rem;
+      --_responsivesizing---fontsize-h5: 1.375rem;
+      --_responsivesizing---fontsize-h6: 1.125rem;
+      --_responsivesizing---fontsize-l: var(--_responsivesizing---fontsize-h4);
+      --_responsivesizing---fontsize-m: 1.375rem;
+      --_responsivesizing---fontsize-body: 1.125rem;
+      --_responsivesizing---fontsize-s: 0.875rem;
+      --_responsivesizing---fontsize-xs: 0.75rem;
+      --_responsivesizing---spacing-horizontal: 1.5rem;
+      --_responsivesizing---spacing-xxl: 11.25rem;
+      --_responsivesizing---spacing-xl: 8.75rem;
+      --_responsivesizing---spacing-l: 5rem;
+      --_responsivesizing---spacing-m: 4rem;
+      --_responsivesizing---spacing-r: 2.5rem;
+      --_responsivesizing---spacing-s: 2rem;
+      --_responsivesizing---spacing-xs: 1.5rem;
+      --_responsivesizing---spacing-xxs: 1rem;
+      --_spacing---section-topbottom: var(--_responsivesizing---spacing-l);
+      --_textstyle---font-size: var(--_responsivesizing---fontsize-body);
+    }
+    @media screen and (max-width: 991px) {
+      :root { --_responsivesizing---fontsize-h1: 4rem; --_responsivesizing---fontsize-h2: 3.25rem; --_responsivesizing---spacing-l: 4rem; }
+    }
+    @media screen and (max-width: 479px) {
+      :root { --_responsivesizing---fontsize-h1: 2.75rem; --_responsivesizing---fontsize-h2: 2.25rem; --_responsivesizing---spacing-l: 3rem; --_responsivesizing---spacing-horizontal: 1rem; }
+    }
+
+    /* ---- Squelette de page (approximation des classes Webflow page-wrapper / section / container) */
+    * { box-sizing: border-box; }
+    html, body { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body {
+      margin: 0;
+      font-family: var(--font--text);
+      font-size: var(--_responsivesizing---fontsize-body);
+      line-height: 1.5;
+      color: var(--_colortheme---text);
+      background: var(--_colortheme---bg);
+    }
+    h1, h2, h3 { font-family: var(--font--heading); font-weight: 700; color: var(--_colortheme---heading); margin: 0; line-height: 1.05; }
+    a { color: inherit; }
+    .container { width: 100%; max-width: var(--max-width--container); margin: 0 auto; padding: 0 var(--_responsivesizing---spacing-horizontal); }
+    .section { padding: var(--_spacing---section-topbottom) 0; }
+
+    /* Navbar (variante dark : bg brand-2, texte brand-3) */
+    .navbar { background: var(--_colorswatch---brand-2); color: var(--_colorswatch---brand-3); min-height: var(--_navbar---height); display: flex; align-items: center; }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
+    .navbar_logo { font-family: var(--font--heading); font-weight: 700; text-decoration: none; }
+    .nav_menu { display: flex; align-items: center; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+    .menu_link { font-family: var(--font--heading); font-weight: 700; font-size: var(--_responsivesizing---fontsize-m); text-decoration: none; }
+    .menu_link:hover { color: var(--_colortheme---link-hover); }
+    .button.is-outline { display: inline-flex; align-items: center; min-height: var(--accessibility--min-touch); padding: 0 1.25rem; border: var(--border--border-line) solid currentColor; border-radius: 999px; font-family: var(--font--button); font-weight: 700; text-decoration: none; }
+    @media screen and (max-width: 767px) { .hide-mobile-landscape { display: none; } }
+
+    /* Hero + stepper : mêmes classes que Webflow. section.mep-hero = mode ColorTheme brand-2 */
+    .section.mep-hero {
+      --_colortheme---bg: var(--_colorswatch---brand-2);
+      --_colortheme---text: var(--_colorswatch---white);
+      --_colortheme---heading: var(--_colorswatch---white);
+      --_colortheme---grey-border: #444443;
+      position: relative;
+    }
+    .mep-hero_row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; column-gap: 4rem; row-gap: 1.5rem; }
+    @media screen and (max-width: 991px) { .mep-hero_row { flex-direction: column; align-items: flex-start; } }
+    .hero-content_heading { font-size: var(--_responsivesizing---fontsize-h1); max-width: var(--max-width--max-width-l); }
+    .hero_subtitle { max-width: 26rem; flex: 0 1 26rem; margin: 0 0 0.75rem; }
+    .mep-stepper { display: flex; flex-wrap: wrap; align-items: center; column-gap: 0.75rem; row-gap: 0.5rem; list-style: none; margin: 0 0 2rem 0; padding: 0; }
+    .mep-stepper_item { display: inline-flex; align-items: center; min-height: 2.25rem; padding: 0 0.75rem; border-radius: 999px; font-family: var(--font--heading); font-weight: 700; font-size: 1.125rem; line-height: 1; color: var(--_colorswatch---white); }
+    .mep-stepper_item.is-active { background-color: var(--_colorswatch---brand-1); color: var(--_colorswatch---white); }
+    .mep-stepper_item.is-done { color: var(--_colorswatch---white); opacity: 0.75; }
+    .mep-stepper_arrow { color: var(--_colorswatch---white); font-family: var(--font--heading); font-size: 1.125rem; line-height: 1; opacity: 0.75; }
+
+    /* Section module + attribution */
+    .section.is-module { padding-top: 0; }
+    .mep-attribution { display: grid; gap: 0.75rem; max-width: 60rem; margin-top: 2.5rem; }
+    .mep-attribution_text { font-size: 0.875rem; line-height: 1.5; color: #444443; margin: 0; }
+
+    /* Footer placeholder */
+    .footer { background: var(--_colorswatch---brand-2); color: var(--_colorswatch---brand-3); padding: 3rem 0; font-size: var(--_responsivesizing---fontsize-s); }
+    .harness-badge { position: fixed; right: 0.75rem; bottom: 0.75rem; z-index: 99; font: 700 0.75rem/1 var(--font--heading); background: var(--_colorswatch---brand-1); color: #fff; padding: 0.5rem 0.75rem; border-radius: 999px; }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <header class="navbar" data-navbar="element">
+      <div class="container">
+        <a class="navbar_logo" href="#">The petition no one would sign</a>
+        <ul class="nav_menu">
+          <li class="nav_listitem hide-mobile-landscape"><a class="menu_link" href="#">What’s happening?</a></li>
+          <li class="nav_listitem hide-mobile-landscape"><a class="menu_link" href="#" aria-current="page">Contact your MEP</a></li>
+          <li class="nav_listitem"><a class="button is-outline" href="#">Take action</a></li>
+        </ul>
+      </div>
+    </header>
+
+    <main class="main-wrapper" id="main-content">
+      <!-- Hero sombre (combo section.mep-hero = mode ColorTheme brand-2), uniquement sur les pages Contact your MEP -->
+      <section class="section mep-hero" id="contact-your-mep-hero">
+        <div class="container">
+          <!-- Stepper natif Webflow (mêmes classes et data-mep-step que sur la page publiée) -->
+          <ol class="mep-stepper" aria-label="Steps">
+            <li class="mep-stepper_item is-active" data-mep-step="1" aria-current="step">1. Find</li>
+            <li class="mep-stepper_arrow" aria-hidden="true">→</li>
+            <li class="mep-stepper_item" data-mep-step="2">2. Write</li>
+            <li class="mep-stepper_arrow" aria-hidden="true">→</li>
+            <li class="mep-stepper_item" data-mep-step="3">3. Send</li>
+          </ol>
+          <div class="mep-hero_row">
+            <h1 class="hero-content_heading">Email your representative.</h1>
+            <p class="hero_subtitle">The people negotiating this law were elected by you. A short, personal message from a constituent carries real weight. It takes two minutes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section is-module" id="contact-your-mep-module">
+        <div class="container">
+          <!-- Cible du module : identique à l'Embed Webflow -->
+          <div id="mep-module"></div>
+          <div class="mep-attribution">
+            <p class="mep-attribution_text">This records a vote held on 9 July 2026 on the temporary rules allowing companies to detect child sexual abuse material. This was not a vote on the Child Sexual Abuse Regulation, but about related rules that allowed online services to continue finding and removing online child sexual abuse legally in the EU.</p>
+            <p class="mep-attribution_text">Voting records: <a href="https://howtheyvote.eu/votes/195775" target="_blank" rel="noopener">HowTheyVote.eu</a>, licensed under the Open Database Licence. Portraits: © European Union. Contact details: European Parliament Public Directory.</p>
+            <p class="mep-attribution_text">ThePetitionNoOneWouldSign is a campaign by the Internet Watch Foundation. Messages are sent by you, from your own email app.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">Footer du site (composant Webflow) · Cookie preferences · Legal notice</div>
+    </footer>
+  </div>
+
+  <span class="harness-badge" aria-hidden="true">HARNESS</span>
+
+  <!-- Dev : Vite sert /src/main.js et /data/meps.json. Le script chargé en type="module" n'a pas de
+       document.currentScript : le module retombe sur /data/meps.json (voir resolveDataUrl). -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

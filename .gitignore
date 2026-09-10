@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+
+# tooling
+.vite/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.*
+
+# heavy design sources (Figma + PDF exports stay local, the CSV is versioned)
+sources/*.fig
+sources/*.pdf
+
+# NOTE: dist/ and data/meps.json are COMMITTED on purpose (served by jsDelivr from git tags)
+
+# brief interne de mission : reste local, hors du depot public
+iwf.md

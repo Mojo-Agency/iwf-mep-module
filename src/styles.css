@@ -1,0 +1,250 @@
+/* IWF phase 2 — Contact your MEP module
+ * Scopé sous #mep-module. Consomme les variables du design system Webflow (phase 1)
+ * avec des valeurs de repli identiques aux tokens du site, pour le harness local. */
+
+#mep-module {
+  --mep-font-heading: var(--font--heading, var(--font--secondary, "Lexia Custom", Georgia, serif));
+  --mep-font-text: var(--font--text, var(--font--primary, "Firasans Custom", "Fira Sans", Arial, sans-serif));
+  --mep-brand: var(--_colorswatch---brand-1, #e81911);
+  --mep-brand-dark: var(--_colorswatch---brand-5, #9e1d1f);
+  --mep-dark: var(--_colorswatch---brand-2, #303030);
+  --mep-light: var(--_colorswatch---brand-3, whitesmoke);
+  --mep-white: var(--_colorswatch---white, #fff);
+  --mep-border: var(--_colortheme---grey-border, #eaeaea);
+  --mep-touch: var(--accessibility--min-touch, 48px);
+  --mep-radius: var(--radius--radius-xs, 1rem);
+  --mep-radius-s: 0.5rem;
+  --mep-gap: var(--_responsivesizing---spacing-xs, 1.5rem);
+  --mep-gap-s: var(--_responsivesizing---spacing-xxs, 1rem);
+  --mep-fs-body: var(--_responsivesizing---fontsize-body, 1.125rem);
+  --mep-fs-s: var(--_responsivesizing---fontsize-s, 0.875rem);
+  --mep-fs-h5: var(--_responsivesizing---fontsize-h5, 1.375rem);
+  --mep-border-line: var(--border--border-line, 2px);
+  --mep-ok: #1c7c3e;
+  --mep-ko: var(--mep-brand);
+  --mep-neutral: #6b6b6b;
+
+  font-family: var(--mep-font-text);
+  font-size: var(--mep-fs-body);
+  line-height: 1.5;
+  color: var(--mep-dark);
+  box-sizing: border-box;
+}
+#mep-module *,
+#mep-module *::before,
+#mep-module *::after { box-sizing: inherit; }
+
+#mep-module [hidden] { display: none !important; }
+#mep-module .mep-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+#mep-module :focus-visible {
+  outline: var(--mep-border-line) solid var(--mep-brand);
+  outline-offset: 2px;
+}
+
+/* ---- Étape : structure ------------------------------------------------- */
+#mep-module .mep-step { display: grid; gap: var(--mep-gap); }
+#mep-module .mep-step__title {
+  font-family: var(--mep-font-heading);
+  font-size: var(--mep-fs-h5);
+  line-height: 1.2;
+  margin: 0;
+}
+#mep-module .mep-step__title:focus { outline: none; }
+
+/* ---- Barre d'outils ----------------------------------------------------- */
+#mep-module .mep-toolbar {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1fr) 2fr;
+  gap: var(--mep-gap-s);
+  align-items: end;
+}
+#mep-module .mep-field { display: grid; gap: 0.375rem; }
+#mep-module .mep-field__label { font-size: var(--mep-fs-s); font-weight: 700; }
+#mep-module .mep-input,
+#mep-module .mep-select {
+  min-height: var(--mep-touch);
+  width: 100%;
+  padding: 0 0.875rem;
+  font: inherit;
+  color: inherit;
+  background: var(--mep-white);
+  border: var(--mep-border-line) solid var(--mep-border);
+  border-radius: var(--mep-radius-s);
+}
+#mep-module .mep-input:focus,
+#mep-module .mep-select:focus { border-color: var(--mep-dark); outline: none; }
+#mep-module .mep-status { font-size: var(--mep-fs-s); color: var(--mep-neutral); min-height: 1.5em; }
+
+/* ---- Grille de fiches --------------------------------------------------- */
+#mep-module .mep-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--mep-gap-s);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#mep-module .mep-card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--mep-white);
+  border: var(--mep-border-line) solid var(--mep-border);
+  border-radius: var(--mep-radius);
+  overflow: hidden;
+}
+#mep-module .mep-card__head { display: flex; gap: var(--mep-gap-s); padding: var(--mep-gap-s); align-items: center; }
+#mep-module .mep-card__photo {
+  flex: none;
+  width: 4.5rem; height: 4.5rem;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--mep-light);
+  color: var(--mep-neutral);
+  font-family: var(--mep-font-heading);
+  display: grid; place-items: center;
+}
+#mep-module .mep-card__name {
+  font-family: var(--mep-font-heading);
+  font-size: var(--mep-fs-body);
+  line-height: 1.2;
+  margin: 0;
+}
+#mep-module .mep-card__meta { font-size: var(--mep-fs-s); color: var(--mep-neutral); margin: 0.25rem 0 0; }
+#mep-module .mep-card__vote {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+  padding: 0.5rem var(--mep-gap-s);
+  font-size: var(--mep-fs-s);
+  font-weight: 700;
+  color: var(--mep-white);
+  background: var(--mep-neutral);
+}
+#mep-module .mep-card__vote--against { background: var(--mep-ok); }
+#mep-module .mep-card__vote--for { background: var(--mep-ko); }
+#mep-module .mep-card__vote a { color: inherit; font-weight: 400; text-decoration: underline; }
+#mep-module .mep-card__vote-kicker { display: block; font-size: var(--_responsivesizing---fontsize-xs, 0.75rem); font-weight: 400; letter-spacing: 0.04em; text-transform: uppercase; opacity: 0.85; }
+#mep-module .mep-card__actions { padding: var(--mep-gap-s); }
+
+/* ---- Boutons ------------------------------------------------------------ */
+#mep-module .mep-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: var(--mep-touch);
+  padding: 0 1.25rem;
+  font-family: var(--mep-font-heading);
+  font-size: var(--mep-fs-body);
+  line-height: 1;
+  color: var(--mep-white);
+  background: var(--mep-brand);
+  border: var(--mep-border-line) solid var(--mep-brand);
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+#mep-module .mep-btn:hover { background: var(--mep-dark); border-color: var(--mep-dark); }
+#mep-module .mep-btn--outline { background: transparent; color: var(--mep-dark); border-color: var(--mep-dark); }
+#mep-module .mep-btn--outline:hover { background: var(--mep-dark); color: var(--mep-white); }
+#mep-module .mep-btn--block { width: 100%; }
+
+/* ---- Étape 1 : barre de résultats + bulk --------------------------------- */
+#mep-module .mep-results-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--mep-gap-s); }
+#mep-module .mep-empty__title { font-family: var(--mep-font-heading); font-size: var(--mep-fs-h5); margin: 0 0 0.5rem; }
+#mep-module .mep-empty .mep-btn { margin-top: var(--mep-gap-s); }
+
+/* ---- Étape 2 : barre "Writing to", modèles, champs ----------------------- */
+#mep-module .mep-writing-to {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--mep-white);
+  border: var(--mep-border-line) solid var(--mep-border);
+  border-radius: var(--mep-radius-s);
+}
+#mep-module .mep-writing-to__label { font-size: var(--mep-fs-s); color: var(--mep-neutral); }
+#mep-module .mep-writing-to__who { font-family: var(--mep-font-heading); }
+#mep-module .mep-link {
+  display: inline-flex; align-items: center; min-height: var(--mep-touch);
+  padding: 0 0.25rem; margin: 0; background: none; border: 0;
+  font: inherit; color: var(--mep-brand); text-decoration: underline; cursor: pointer;
+}
+#mep-module .mep-link:hover { color: var(--mep-brand-dark); }
+#mep-module .mep-templates { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--mep-gap-s); }
+#mep-module .mep-template {
+  display: grid; gap: 0.375rem; align-content: start; text-align: left;
+  min-height: var(--mep-touch);
+  padding: var(--mep-gap-s);
+  background: var(--mep-white);
+  border: var(--mep-border-line) solid var(--mep-border);
+  border-radius: var(--mep-radius);
+  font: inherit; color: inherit; cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+#mep-module .mep-template:hover { border-color: var(--mep-dark); }
+#mep-module .mep-template[aria-pressed="true"] { border-color: var(--mep-brand); box-shadow: inset 0 0 0 1px var(--mep-brand); }
+#mep-module .mep-template__title { font-family: var(--mep-font-heading); font-size: var(--mep-fs-body); }
+#mep-module .mep-template__desc { font-size: var(--mep-fs-s); color: var(--mep-neutral); }
+#mep-module .mep-textarea { min-height: 24rem; padding: 0.875rem; line-height: 1.5; resize: vertical; }
+#mep-module .mep-counter { font-size: var(--mep-fs-s); color: var(--mep-brand-dark); margin: 0; }
+#mep-module .mep-note { font-size: var(--mep-fs-s); color: var(--mep-neutral); margin: 0; }
+#mep-module .mep-error-text { font-size: var(--mep-fs-s); color: var(--mep-brand); font-weight: 700; margin: 0; }
+#mep-module .mep-actions { display: flex; flex-wrap: wrap; gap: var(--mep-gap-s); }
+
+/* ---- Étape 3 : aperçu, notice, boutons ---------------------------------- */
+#mep-module .mep-preview {
+  background: var(--mep-white);
+  border: var(--mep-border-line) solid var(--mep-border);
+  border-radius: var(--mep-radius);
+  overflow: hidden;
+}
+#mep-module .mep-preview__row {
+  display: grid; grid-template-columns: 6rem minmax(0, 1fr) auto; gap: var(--mep-gap-s); align-items: start;
+  padding: var(--mep-gap-s);
+  border-bottom: var(--mep-border-line) solid var(--mep-border);
+}
+#mep-module .mep-preview__row:last-child { border-bottom: 0; }
+#mep-module .mep-preview__key { font-size: var(--mep-fs-s); font-weight: 700; color: var(--mep-neutral); padding-top: 0.25rem; }
+#mep-module .mep-preview__body { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+#mep-module .mep-notice { padding: var(--mep-gap-s); margin: 0; background: var(--mep-light); border-radius: var(--mep-radius-s); font-size: var(--mep-fs-s); }
+#mep-module .mep-btn.is-copied { background: var(--mep-ok); border-color: var(--mep-ok); color: var(--mep-white); }
+#mep-module .mep-after a { color: var(--mep-brand); }
+
+/* ---- États --------------------------------------------------------------- */
+#mep-module .mep-empty,
+#mep-module .mep-error {
+  grid-column: 1 / -1;
+  padding: var(--mep-gap);
+  border-radius: var(--mep-radius);
+  background: var(--mep-light);
+  text-align: center;
+}
+#mep-module .mep-error { border: var(--mep-border-line) solid var(--mep-brand); }
+#mep-module .mep-skeleton {
+  min-height: 9rem;
+  border-radius: var(--mep-radius);
+  background: linear-gradient(90deg, var(--mep-light) 25%, var(--mep-white) 50%, var(--mep-light) 75%);
+  background-size: 200% 100%;
+  animation: mep-shimmer 1.2s infinite;
+}
+@keyframes mep-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+/* ---- Responsive (breakpoints Webflow : 991 / 767 / 479) ----------------- */
+@media screen and (max-width: 991px) {
+  #mep-module .mep-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media screen and (max-width: 767px) {
+  #mep-module .mep-toolbar { grid-template-columns: 1fr; }
+  #mep-module .mep-templates { grid-template-columns: 1fr; }
+  #mep-module .mep-preview__row { grid-template-columns: 1fr; gap: 0.25rem; }
+  #mep-module .mep-actions .mep-btn { width: 100%; }
+}
+@media screen and (max-width: 479px) {
+  #mep-module .mep-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #mep-module *, #mep-module *::before, #mep-module *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

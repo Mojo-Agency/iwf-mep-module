@@ -1,0 +1,24 @@
+{
+  "name": "iwf-mep-module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "IWF phase 2 - Contact your MEP module (vanilla JS, Vite lib build, mounted on Webflow)",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:data": "node scripts/build-data.mjs",
+    "build:data:strict": "node scripts/build-data.mjs --strict",
+    "prebuild": "node scripts/build-data.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "test": "npm run build && node scripts/smoke.mjs"
+  },
+  "devDependencies": {
+    "jsdom": "^25.0.1",
+    "vite": "^6.3.5"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
