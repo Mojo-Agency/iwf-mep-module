@@ -75,7 +75,7 @@ export const COPY = {
   step1Title: 'Find your representative',
   countryLabel: 'Search by country',
   allCountries: 'All countries',
-  searchPlaceholder: 'Search by name, party or political group',
+  searchLabel: 'Search by name, party or political group',
   shown: (n, total) => `${n} out of ${total} representatives shown`,
   resultsAnnounce: (n, from, to) => `${n} representative${n === 1 ? '' : 's'} match. Showing ${from} to ${to}.`,
   pagination: 'Pagination',

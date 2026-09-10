@@ -87,9 +87,10 @@ export function renderStep1(ctx) {
     h('option', { value: '', text: COPY.allCountries }),
     countries.map((c) => h('option', { value: c.code, text: c.label, selected: state.country === c.code })),
   );
+  // Design : libellé visible au-dessus du champ, pas de placeholder ni d'icône.
   const input = h('input', {
-    class: 'mep-input mep-input--search', id: 'mep-search', type: 'search', name: 'q',
-    placeholder: COPY.searchPlaceholder, autocomplete: 'off', value: state.query,
+    class: 'mep-input', id: 'mep-search', type: 'search', name: 'q',
+    autocomplete: 'off', value: state.query,
   });
   const countEl = h('p', { class: 'mep-status' });
   const bulkWrap = h('div', { class: 'mep-bulk' });
@@ -163,7 +164,7 @@ export function renderStep1(ctx) {
     h('h2', { class: 'mep-step__title', id: 'mep-step1-title', tabindex: '-1', text: COPY.step1Title }),
     h('div', { class: 'mep-toolbar' },
       h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-country', text: COPY.countryLabel }), select),
-      h('div', { class: 'mep-field mep-field--search' }, h('label', { class: 'mep-field__label mep-sr-only', for: 'mep-search', text: COPY.searchPlaceholder }), input),
+      h('div', { class: 'mep-field' }, h('label', { class: 'mep-field__label', for: 'mep-search', text: COPY.searchLabel }), input),
     ),
     resultsBar,
     grid,
