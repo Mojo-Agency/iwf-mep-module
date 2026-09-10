@@ -110,14 +110,15 @@
   border-radius: 0;
   overflow: hidden;
 }
+/* Photo entière (pas de recadrage), centrée sur fond blanc, 320 px de haut maximum. */
 #mep-module .mep-card__photo {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 10 / 7;
-  object-fit: cover;
-  object-position: center 20%;
-  background: var(--mep-light);
+  height: 20rem;
+  max-height: 320px;
+  object-fit: contain;
+  object-position: center;
+  background: var(--mep-white);
 }
 #mep-module .mep-card__photo--fallback {
   display: grid; place-items: center;

@@ -12,8 +12,8 @@ function renderCard(mep, ctx) {
     src: mep.photo,
     alt: '',
     loading: 'lazy',
-    width: 348,
-    height: 245,
+    width: 240,
+    height: 320,
     onerror: (e) => {
       e.target.replaceWith(h('span', { class: 'mep-card__photo mep-card__photo--fallback', 'aria-hidden': 'true', text: initials(mep.name) }));
     },
