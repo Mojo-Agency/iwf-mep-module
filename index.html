@@ -161,7 +161,8 @@
 
     /* Section module + attribution : marge sous le bloc noir */
     .section.is-module { padding-top: var(--_responsivesizing---spacing-r); }
-    .mep-attribution { display: grid; gap: 0.75rem; max-width: 60rem; margin-top: 2.5rem; }
+    .mep-attribution { display: grid; row-gap: 1.5rem; max-width: 80%; margin-top: 2.5rem; }
+    .mep-attribution_group { display: grid; row-gap: 0.25rem; }
     .mep-attribution_text { font-size: 0.875rem; line-height: 1.5; color: #444443; margin: 0; }
 
     /* Footer placeholder */
@@ -208,9 +209,14 @@
           <!-- Cible du module : identique à l'Embed Webflow -->
           <div id="mep-module"></div>
           <div class="mep-attribution">
-            <p class="mep-attribution_text">This records a vote held on 9 July 2026 on the temporary rules allowing companies to detect child sexual abuse material. This was not a vote on the Child Sexual Abuse Regulation, but about related rules that allowed online services to continue finding and removing online child sexual abuse legally in the EU.</p>
-            <p class="mep-attribution_text">Voting records: <a href="https://howtheyvote.eu/votes/195775" target="_blank" rel="noopener">HowTheyVote.eu</a>, licensed under the Open Database Licence. Portraits: © European Union. Contact details: European Parliament Public Directory.</p>
-            <p class="mep-attribution_text">ThePetitionNoOneWouldSign is a campaign by the Internet Watch Foundation. Messages are sent by you, from your own email app.</p>
+            <div class="mep-attribution_group">
+              <p class="mep-attribution_text">This records a vote held on 9 July 2026 on the temporary rules allowing companies to detect child sexual abuse material. This was not a vote on the Child Sexual Abuse Regulation, but about related rules that allowed online services to continue finding and removing online child sexual abuse legally in the EU.</p>
+              <p class="mep-attribution_text">Voting records: <a href="https://howtheyvote.eu/votes/195775" target="_blank" rel="noopener">HowTheyVote.eu</a>, licensed under the Open Database Licence. Portraits: © European Union. Contact details: European Parliament Public Directory.</p>
+            </div>
+            <div class="mep-attribution_group">
+              <p class="mep-attribution_text"><a href="/">ThePetitionNoOneWouldSign</a> is a campaign by the Internet Watch Foundation. Messages are sent by you, from your own email app.</p>
+              <p class="mep-attribution_text">Voting data compiled by <a href="https://howtheyvote.eu" target="_blank" rel="noopener">HowTheyVote.eu</a> from official European Parliament records. Portraits: © European Union. Contact details: European Parliament public directory.</p>
+            </div>
           </div>
         </div>
       </section>
